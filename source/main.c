@@ -9,6 +9,8 @@
 #define SCREEN_HEIGHT_TOP 240
 #define SCREEN_WIDTH_BOTTOM 320
 #define SCREEN_HEIGHT_BOTTOM 240
+#define LANGUAGE_EN 1
+#define LANGUAGE_JP 0
 int loaded = 0;
 
 int pxx, pyy;
@@ -20,26 +22,45 @@ static char timeString[9];
 static void sceneInit()
 {
 
-    mainTextBuf = C2D_TextBufNew(4096); // create text buffer
-    timeBuf = C2D_TextBufNew(4096);     // create text buffer
-    buttonsBuf = C2D_TextBufNew(4096);  // create text buffer
+    mainTextBuf = C2D_TextBufNew(4096); // create text buffers
+    timeBuf = C2D_TextBufNew(4096);
+    buttonsBuf = C2D_TextBufNew(4096);
 
-    C2D_TextParse(&modesText[0], mainTextBuf, "Buttons "); // parse the texts :: i honestly won't care if you yell at me about how untidy this is, if it works, leave it.
-    C2D_TextParse(&modesText[1], mainTextBuf, "Screens ");
-    C2D_TextParse(&modesText[2], mainTextBuf, "Touchscreen ");
-    C2D_TextParse(&modesText[3], mainTextBuf, "Return to HBL ");
-    C2D_TextParse(&modesText[4], mainTextBuf, "Stick ");
+    u8 language = 1;
+
+    CFGU_GetSystemLanguage(&language);
+
+    if(language == LANGUAGE_EN) {
+        C2D_TextParse(&modesText[0], mainTextBuf, "Buttons "); // parse the texts :: i honestly won't care if you yell at me about how untidy this is, if it works, leave it.
+        C2D_TextParse(&modesText[1], mainTextBuf, "Screens ");
+        C2D_TextParse(&modesText[2], mainTextBuf, "Touchscreen ");
+        C2D_TextParse(&modesText[3], mainTextBuf, "Return to HBL ");
+        C2D_TextParse(&modesText[4], mainTextBuf, "Stick ");
+        C2D_TextParse(&uiText[0], mainTextBuf, "3DS Check [1.0_O3DS.EN]");
+        C2D_TextParse(&uiText[1], mainTextBuf, " Back");
+        C2D_TextParse(&uiText[2], mainTextBuf, "START +  Back");
+        C2D_TextParse(&uiText[3], mainTextBuf, "Sys. Opt.");
+        C2D_TextParse(&uiText[4], mainTextBuf, "Restart");
+        C2D_TextParse(&enabled3D, mainTextBuf, "3D SCREEN TEST");
+    } else if (language == LANGUAGE_JP) {
+        C2D_TextParse(&modesText[0], mainTextBuf, "ボタン ");
+        C2D_TextParse(&modesText[1], mainTextBuf, "スクリーン ");
+        C2D_TextParse(&modesText[2], mainTextBuf, "タッチスクリーン ");
+        C2D_TextParse(&modesText[3], mainTextBuf, "ローダへ帰り ");
+        C2D_TextParse(&modesText[4], mainTextBuf, "丸いパッド ");
+        C2D_TextParse(&uiText[0], mainTextBuf, "3DS Check [1.0_O3DS.JP]");
+        C2D_TextParse(&uiText[1], mainTextBuf, " 帰る");
+        C2D_TextParse(&uiText[2], mainTextBuf, "START +  帰る");
+        C2D_TextParse(&uiText[3], mainTextBuf, "本体設定");
+        C2D_TextParse(&uiText[4], mainTextBuf, "再起動");
+        C2D_TextParse(&enabled3D, mainTextBuf, "3Dスクリーンテスト");
+    }
+
     C2D_TextOptimize(&modesText[0]);
     C2D_TextOptimize(&modesText[1]);
     C2D_TextOptimize(&modesText[2]);
     C2D_TextOptimize(&modesText[3]);
     C2D_TextOptimize(&modesText[4]);
-    C2D_TextParse(&uiText[0], mainTextBuf, "3DS Check [1.0_O3DS]");
-    C2D_TextParse(&uiText[1], mainTextBuf, " Back");
-    C2D_TextParse(&uiText[2], mainTextBuf, "START +  Back");
-    C2D_TextParse(&uiText[3], mainTextBuf, "Sys. Opt.");
-    C2D_TextParse(&uiText[4], mainTextBuf, "Restart");
-    C2D_TextParse(&enabled3D, mainTextBuf, "3D SCREEN TEST");
     C2D_TextOptimize(&enabled3D);
     C2D_TextOptimize(&uiText[0]);
     C2D_TextOptimize(&uiText[1]);
@@ -72,6 +93,7 @@ static void sceneExit(void)
     // Delete the text buffers
     C2D_TextBufDelete(mainTextBuf);
     C2D_TextBufDelete(timeBuf);
+    C2D_TextBufDelete(buttonsBuf);
 }
 
 static void sceneRenderTop()
@@ -166,6 +188,7 @@ int main()
 {
     //init stuff
     srvInit();
+    cfguInit();
     aptInit();
     gfxInitDefault();
     C3D_Init(C3D_DEFAULT_CMDBUF_SIZE);
@@ -286,5 +309,6 @@ int main()
     aptExit();
 	srvExit();
     gfxExit();
+    cfguExit();
     return 0;
 }

@@ -1,4 +1,4 @@
-main.o: C:/Users/321ha/Desktop/code_stuff/3DS_Check/source/main.c \
+main.o: C:/Users/321ha/Desktop/code_stuff/3DSCheck/source/main.c \
  C:/devkitPro/libctru/include/citro2d.h \
  C:/devkitPro/libctru/include/citro3d.h \
  C:/devkitPro/libctru/include/c3d/types.h \
@@ -103,11 +103,11 @@ main.o: C:/Users/321ha/Desktop/code_stuff/3DS_Check/source/main.c \
  C:/devkitPro/libctru/include/c2d/sprite.h \
  C:/devkitPro/libctru/include/c2d/text.h \
  C:/devkitPro/libctru/include/c2d/font.h \
- C:/Users/321ha/Desktop/code_stuff/3DS_Check/source/mochalibs.h \
- C:/Users/321ha/Desktop/code_stuff/3DS_Check/source/touchscreen.h \
- C:/Users/321ha/Desktop/code_stuff/3DS_Check/source/buttons.h \
- C:/Users/321ha/Desktop/code_stuff/3DS_Check/source/screens.h \
- C:/Users/321ha/Desktop/code_stuff/3DS_Check/source/sticks.h
+ C:/Users/321ha/Desktop/code_stuff/3DSCheck/source/mochalibs.h \
+ C:/Users/321ha/Desktop/code_stuff/3DSCheck/source/touchscreen.h \
+ C:/Users/321ha/Desktop/code_stuff/3DSCheck/source/buttons.h \
+ C:/Users/321ha/Desktop/code_stuff/3DSCheck/source/screens.h \
+ C:/Users/321ha/Desktop/code_stuff/3DSCheck/source/sticks.h
 C:/devkitPro/libctru/include/citro2d.h:
 C:/devkitPro/libctru/include/citro3d.h:
 C:/devkitPro/libctru/include/c3d/types.h:
@@ -212,8 +212,8 @@ C:/devkitPro/libctru/include/c2d/spritesheet.h:
 C:/devkitPro/libctru/include/c2d/sprite.h:
 C:/devkitPro/libctru/include/c2d/text.h:
 C:/devkitPro/libctru/include/c2d/font.h:
-C:/Users/321ha/Desktop/code_stuff/3DS_Check/source/mochalibs.h:
-C:/Users/321ha/Desktop/code_stuff/3DS_Check/source/touchscreen.h:
-C:/Users/321ha/Desktop/code_stuff/3DS_Check/source/buttons.h:
-C:/Users/321ha/Desktop/code_stuff/3DS_Check/source/screens.h:
-C:/Users/321ha/Desktop/code_stuff/3DS_Check/source/sticks.h:
+C:/Users/321ha/Desktop/code_stuff/3DSCheck/source/mochalibs.h:
+C:/Users/321ha/Desktop/code_stuff/3DSCheck/source/touchscreen.h:
+C:/Users/321ha/Desktop/code_stuff/3DSCheck/source/buttons.h:
+C:/Users/321ha/Desktop/code_stuff/3DSCheck/source/screens.h:
+C:/Users/321ha/Desktop/code_stuff/3DSCheck/source/sticks.h:

@@ -1,6 +1,6 @@
 mochalibs.o: \
- C:/Users/321ha/Desktop/code_stuff/3DS_Check/source/mochalibs.c \
- C:/Users/321ha/Desktop/code_stuff/3DS_Check/source/mochalibs.h \
+ C:/Users/321ha/Desktop/code_stuff/3DSCheck/source/mochalibs.c \
+ C:/Users/321ha/Desktop/code_stuff/3DSCheck/source/mochalibs.h \
  C:/devkitPro/libctru/include/citro2d.h \
  C:/devkitPro/libctru/include/citro3d.h \
  C:/devkitPro/libctru/include/c3d/types.h \
@@ -105,7 +105,7 @@ mochalibs.o: \
  C:/devkitPro/libctru/include/c2d/sprite.h \
  C:/devkitPro/libctru/include/c2d/text.h \
  C:/devkitPro/libctru/include/c2d/font.h
-C:/Users/321ha/Desktop/code_stuff/3DS_Check/source/mochalibs.h:
+C:/Users/321ha/Desktop/code_stuff/3DSCheck/source/mochalibs.h:
 C:/devkitPro/libctru/include/citro2d.h:
 C:/devkitPro/libctru/include/citro3d.h:
 C:/devkitPro/libctru/include/c3d/types.h:
