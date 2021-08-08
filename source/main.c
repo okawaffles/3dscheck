@@ -5,10 +5,12 @@
 #include "buttons.h"
 #include "screens.h"
 #include "sticks.h"
+#include "main.h"
 #define SCREEN_WIDTH_TOP 400
 #define SCREEN_HEIGHT_TOP 240
 #define SCREEN_WIDTH_BOTTOM 320
 #define SCREEN_HEIGHT_BOTTOM 240
+#define LANGUAGE_RU 10
 #define LANGUAGE_EN 1
 #define LANGUAGE_JP 0
 int loaded = 0;
@@ -16,7 +18,7 @@ int loaded = 0;
 int pxx, pyy;
 
 C2D_TextBuf mainTextBuf, timeBuf, buttonsBuf;
-C2D_Text modesText[5], uiText[5], sysTime, buttons[14], enabled3D;
+C2D_Text modesText[5], uiText[10], sysTime, buttons[14], enabled3D, incorrectSystem;
 static char timeString[9];
 
 static void sceneInit()
@@ -36,24 +38,42 @@ static void sceneInit()
         C2D_TextParse(&modesText[2], mainTextBuf, "Touchscreen ");
         C2D_TextParse(&modesText[3], mainTextBuf, "Return to HBL ");
         C2D_TextParse(&modesText[4], mainTextBuf, "Stick ");
-        C2D_TextParse(&uiText[0], mainTextBuf, "3DS Check [1.0_O3DS.EN]");
+        C2D_TextParse(&uiText[0], mainTextBuf, "3DSCheck [1.0_O3DS.EN]");
         C2D_TextParse(&uiText[1], mainTextBuf, " Back");
         C2D_TextParse(&uiText[2], mainTextBuf, "START +  Back");
         C2D_TextParse(&uiText[3], mainTextBuf, "Sys. Opt.");
         C2D_TextParse(&uiText[4], mainTextBuf, "Restart");
+        C2D_TextParse(&uiText[5], mainTextBuf, "Open Sys. Settings");
         C2D_TextParse(&enabled3D, mainTextBuf, "3D SCREEN TEST");
+        C2D_TextParse(&incorrectSystem, mainTextBuf, "Error. You're trying to run the wrong version of 3DSCheck! Make sure you select the version that matches your 3DS!");
     } else if (language == LANGUAGE_JP) {
         C2D_TextParse(&modesText[0], mainTextBuf, "ボタン ");
         C2D_TextParse(&modesText[1], mainTextBuf, "スクリーン ");
-        C2D_TextParse(&modesText[2], mainTextBuf, "タッチスクリーン ");
+        C2D_TextParse(&modesText[2], mainTextBuf, "タッチ ");
         C2D_TextParse(&modesText[3], mainTextBuf, "ローダへ帰り ");
         C2D_TextParse(&modesText[4], mainTextBuf, "丸いパッド ");
-        C2D_TextParse(&uiText[0], mainTextBuf, "3DS Check [1.0_O3DS.JP]");
+        C2D_TextParse(&uiText[0], mainTextBuf, "3DSCheck [1.0_O3DS.JP]");
         C2D_TextParse(&uiText[1], mainTextBuf, " 帰る");
         C2D_TextParse(&uiText[2], mainTextBuf, "START +  帰る");
         C2D_TextParse(&uiText[3], mainTextBuf, "本体設定");
         C2D_TextParse(&uiText[4], mainTextBuf, "再起動");
+        C2D_TextParse(&uiText[5], mainTextBuf, "本体設定を起動する");
         C2D_TextParse(&enabled3D, mainTextBuf, "3Dスクリーンテスト");
+        C2D_TextParse(&incorrectSystem, mainTextBuf, "エラー。 間違ったバージョンの3DSCheckを実行しようとしています！ 3DSに一致するバージョンを選択してください！");
+    } else if (language == LANGUAGE_RU) {
+        C2D_TextParse(&modesText[0], mainTextBuf, "Кнопки ");
+        C2D_TextParse(&modesText[1], mainTextBuf, "Экраны ");
+        C2D_TextParse(&modesText[2], mainTextBuf, "Трогать ");
+        C2D_TextParse(&modesText[3], mainTextBuf, "Вернуться в HBL ");
+        C2D_TextParse(&modesText[4], mainTextBuf, "подушечка ");
+        C2D_TextParse(&uiText[0], mainTextBuf, "3DSтест [1.0_O3DS.RU]");
+        C2D_TextParse(&uiText[1], mainTextBuf, " Возвращение");
+        C2D_TextParse(&uiText[2], mainTextBuf, "START +  Возвращение");
+        C2D_TextParse(&uiText[3], mainTextBuf, "опции");
+        C2D_TextParse(&uiText[4], mainTextBuf, "перезагрузить");
+        C2D_TextParse(&uiText[5], mainTextBuf, "открыть настройки");
+        C2D_TextParse(&enabled3D, mainTextBuf, "Тест 3D-экрана");
+        C2D_TextParse(&incorrectSystem, mainTextBuf, "Ошибка. Вы пытаетесь запустить не ту версию 3DSCheck! Убедитесь, что вы выбрали версию, соответствующую вашей 3DS!");
     }
 
     C2D_TextOptimize(&modesText[0]);
@@ -184,6 +204,10 @@ static void sceneRenderBottom()
     
 }
 
+void mainMenuSet() {
+    loaded = 0;
+}
+
 int main()
 {
     //init stuff
@@ -202,13 +226,17 @@ int main()
     C3D_RenderTarget *bottom = C2D_CreateScreenTarget(GFX_BOTTOM, GFX_LEFT);
     sceneInit();
 
+    o3ds = true;
+    if (APT_CheckNew3DS_System)
+        o3ds = false;
+
     while (aptMainLoop())
     {
         hidScanInput();
         // check buttons
         u32 kDown = hidKeysDown();
         u32 kHeld = hidKeysHeld();
-        if (loaded == 0)
+        if (loaded == 0 && o3ds == true)
         {
             if (kDown & KEY_Y)
                 break;
@@ -231,10 +259,6 @@ int main()
 
         touchPosition touch;
         hidTouchRead(&touch);
-        circlePosition pos;
-        hidCircleRead(&pos);
-        pxx = pos.dx;
-        pyy = pos.dy;
 
         //render loaded
         C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
@@ -274,14 +298,29 @@ int main()
             hidTouchRead(&tc);
             sceneRenderBottom();
             m_useColor(0x48, 0x54, 0x63);
-            m_rect(5, 55, 100, 80);
+            m_rect(5, 55, 150, 80);
             u32 white = C2D_Color32(0xFF, 0xFF, 0xFF, 0xFF);
-            C2D_DrawText(&uiText[4], C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 50, 73, 0, 0.5f, 0.5f, white);
-            if(touchWithin(tc.px, tc.py, 5, 55, 100, 80)) {
+            C2D_DrawText(&uiText[4], C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 72, 73, 0, 0.5f, 0.5f, white);
+            if(touchWithin(tc.px, tc.py, 5, 55, 150, 80)) {
                 //Reboot Code
 			    //aptOpenSession();
 			    APT_HardwareResetAsync();
 			    //aptCloseSession();
+            }
+            m_rect(5, 85, 150, 110);
+            C2D_DrawText(&uiText[5], C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 72, 103, 0, 0.5f, 0.5f, white);
+            if(touchWithin(tc.px, tc.py, 5, 85, 150, 110)) {
+                u8 region = 1;
+                CFGU_SecureInfoGetRegion(&region);
+
+                if(region == 0) {
+                    aptSetChainloader(0x0004001000020000LL, 0);
+                } else if (region == 1) {
+                    aptSetChainloader(0x0004001000020000LL, 0);
+                } else {
+                    aptSetChainloader(0x0004001000020000LL, 0);
+                }
+                break;
             }
         } else if (loaded == 4) {
             sceneRenderBottom();
