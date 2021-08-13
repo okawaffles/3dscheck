@@ -226,9 +226,8 @@ int main()
     C3D_RenderTarget *bottom = C2D_CreateScreenTarget(GFX_BOTTOM, GFX_LEFT);
     sceneInit();
 
-    o3ds = true;
-    if (APT_CheckNew3DS_System)
-        o3ds = false;
+    bool n3ds = false;
+    APT_CheckNew3DS(&n3ds);
 
     while (aptMainLoop())
     {
@@ -236,7 +235,7 @@ int main()
         // check buttons
         u32 kDown = hidKeysDown();
         u32 kHeld = hidKeysHeld();
-        if (loaded == 0 && o3ds == true)
+        if (loaded == 0 && n3ds == false)
         {
             if (kDown & KEY_Y)
                 break;
