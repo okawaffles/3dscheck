@@ -1,5 +1,6 @@
 #include <citro2d.h>
 #include <3ds.h>
+#include <unistd.h>
 #include "mochalibs.h"
 #include "touchscreen.h"
 #include "buttons.h"
@@ -215,6 +216,20 @@ int main()
     cfguInit();
     aptInit();
     gfxInitDefault();
+
+    consoleInit(GFX_TOP, NULL);
+    printf("NEXUS AppDeveloperEnvironment 0.1.3\n");
+    sleep(0.5);
+    printf("Checking env...\n");
+    sleep(2);
+    bool n3ds = false;
+    APT_CheckNew3DS(&n3ds);
+    if (n3ds) { printf("Type: New3DS\n"); } else { printf("Type: Old3DS\n"); }
+    sleep(3);
+    gfxExit();
+    sleep(1);
+
+    gfxInitDefault();
     C3D_Init(C3D_DEFAULT_CMDBUF_SIZE);
     C2D_Init(C2D_DEFAULT_MAX_OBJECTS);
     C2D_Prepare();
@@ -226,16 +241,13 @@ int main()
     C3D_RenderTarget *bottom = C2D_CreateScreenTarget(GFX_BOTTOM, GFX_LEFT);
     sceneInit();
 
-    bool n3ds = false;
-    APT_CheckNew3DS(&n3ds);
-
     while (aptMainLoop())
     {
         hidScanInput();
         // check buttons
         u32 kDown = hidKeysDown();
         u32 kHeld = hidKeysHeld();
-        if (loaded == 0 && n3ds == false)
+        if (loaded == 0 && n3ds == true)
         {
             if (kDown & KEY_Y)
                 break;
