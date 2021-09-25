@@ -14,6 +14,7 @@
 #define LANGUAGE_RU 10
 #define LANGUAGE_EN 1
 #define LANGUAGE_JP 0
+#define NEW_REC 0
 int loaded = 0;
 
 int pxx, pyy;
@@ -218,14 +219,12 @@ int main()
     gfxInitDefault();
 
     consoleInit(GFX_TOP, NULL);
-    printf("NEXUS AppDeveloperEnvironment 0.1.3\n");
-    sleep(0.5);
-    printf("Checking env...\n");
-    sleep(2);
     bool n3ds = false;
     APT_CheckNew3DS(&n3ds);
-    if (n3ds) { printf("Type: New3DS\n"); } else { printf("Type: Old3DS\n"); }
-    sleep(3);
+    if (n3ds != NEW_REC) {
+        printf("Warning:\nThis app recommends you use O3DS systems.\nYou are running this app on an N3DS system.\n \nThere is another version of this app for N3DS systems.\nPlease consider installing it instead.");
+    }
+    sleep(5);
     gfxExit();
     sleep(1);
 
