@@ -20,7 +20,7 @@ int loaded = 0;
 int pxx, pyy;
 
 C2D_TextBuf mainTextBuf, timeBuf, buttonsBuf;
-C2D_Text modesText[5], uiText[10], sysTime, buttons[14], enabled3D, incorrectSystem;
+C2D_Text modesText[5], uiText[10], sysTime, buttons[14], enabled3D, incorrectSystem, ver;
 static char timeString[9];
 
 static void sceneInit()
@@ -40,7 +40,7 @@ static void sceneInit()
         C2D_TextParse(&modesText[2], mainTextBuf, "Touchscreen ");
         C2D_TextParse(&modesText[3], mainTextBuf, "Return to HBL ");
         C2D_TextParse(&modesText[4], mainTextBuf, "Stick ");
-        C2D_TextParse(&uiText[0], mainTextBuf, "3DSCheck [1.0_O3DS.EN]");
+        C2D_TextParse(&uiText[0], mainTextBuf, "3DSCheck");
         C2D_TextParse(&uiText[1], mainTextBuf, " Back");
         C2D_TextParse(&uiText[2], mainTextBuf, "START +  Back");
         C2D_TextParse(&uiText[3], mainTextBuf, "Sys. Opt.");
@@ -48,13 +48,14 @@ static void sceneInit()
         C2D_TextParse(&uiText[5], mainTextBuf, "Open Sys. Settings");
         C2D_TextParse(&enabled3D, mainTextBuf, "3D SCREEN TEST");
         C2D_TextParse(&incorrectSystem, mainTextBuf, "Error. You're trying to run the wrong version of 3DSCheck! Make sure you select the version that matches your 3DS!");
+        C2D_TextParse(&ver, mainTextBuf, "[1.0_O3DS.EN]");
     } else if (language == LANGUAGE_JP) {
         C2D_TextParse(&modesText[0], mainTextBuf, "ボタン ");
         C2D_TextParse(&modesText[1], mainTextBuf, "スクリーン ");
         C2D_TextParse(&modesText[2], mainTextBuf, "タッチ ");
         C2D_TextParse(&modesText[3], mainTextBuf, "ローダへ帰り ");
         C2D_TextParse(&modesText[4], mainTextBuf, "丸いパッド ");
-        C2D_TextParse(&uiText[0], mainTextBuf, "3DSCheck [1.0_O3DS.JP]");
+        C2D_TextParse(&uiText[0], mainTextBuf, "3DSCheck");
         C2D_TextParse(&uiText[1], mainTextBuf, " 帰る");
         C2D_TextParse(&uiText[2], mainTextBuf, "START +  帰る");
         C2D_TextParse(&uiText[3], mainTextBuf, "本体設定");
@@ -62,13 +63,14 @@ static void sceneInit()
         C2D_TextParse(&uiText[5], mainTextBuf, "本体設定を起動する");
         C2D_TextParse(&enabled3D, mainTextBuf, "3Dスクリーンテスト");
         C2D_TextParse(&incorrectSystem, mainTextBuf, "エラー。 間違ったバージョンの3DSCheckを実行しようとしています！ 3DSに一致するバージョンを選択してください！");
+        C2D_TextParse(&ver, mainTextBuf, "[1.0_O3DS.JP]");
     } else if (language == LANGUAGE_RU) {
         C2D_TextParse(&modesText[0], mainTextBuf, "Кнопки ");
         C2D_TextParse(&modesText[1], mainTextBuf, "Экраны ");
         C2D_TextParse(&modesText[2], mainTextBuf, "Трогать ");
         C2D_TextParse(&modesText[3], mainTextBuf, "Вернуться в HBL ");
         C2D_TextParse(&modesText[4], mainTextBuf, "подушечка ");
-        C2D_TextParse(&uiText[0], mainTextBuf, "3DSтест [1.0_O3DS.RU]");
+        C2D_TextParse(&uiText[0], mainTextBuf, "3DSтест");
         C2D_TextParse(&uiText[1], mainTextBuf, " Возвращение");
         C2D_TextParse(&uiText[2], mainTextBuf, "START +  Возвращение");
         C2D_TextParse(&uiText[3], mainTextBuf, "опции");
@@ -76,6 +78,7 @@ static void sceneInit()
         C2D_TextParse(&uiText[5], mainTextBuf, "открыть настройки");
         C2D_TextParse(&enabled3D, mainTextBuf, "Тест 3D-экрана");
         C2D_TextParse(&incorrectSystem, mainTextBuf, "Ошибка. Вы пытаетесь запустить не ту версию 3DSCheck! Убедитесь, что вы выбрали версию, соответствующую вашей 3DS!");
+        C2D_TextParse(&ver, mainTextBuf, "[1.0_O3DS.RU]");
     }
 
     C2D_TextOptimize(&modesText[0]);
@@ -89,6 +92,7 @@ static void sceneInit()
     C2D_TextOptimize(&uiText[2]);
     C2D_TextOptimize(&uiText[3]);
     C2D_TextOptimize(&uiText[4]);
+    C2D_TextOptimize(&ver);
 
     C2D_TextParse(&buttons[0], buttonsBuf, "A");
     C2D_TextParse(&buttons[1], buttonsBuf, "B");
@@ -134,6 +138,7 @@ static void sceneRenderTop()
     adv_background(0x35, 0x3E, 0x4A);
     m_rect(0, 0, 400, 20);
     C2D_DrawText(&uiText[0], C2D_WithColor, 2, 2, 0, 0.5f, 0.5f, white);
+    C2D_DrawText(&ver, C2D_WithColor | C2D_AlignRight, 398, 2, 0, 0.5f, 0.5f, white);
 
     C2D_TextParse(&sysTime, timeBuf, timeString); // draw time
     C2D_TextOptimize(&sysTime);
