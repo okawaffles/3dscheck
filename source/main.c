@@ -14,14 +14,15 @@
 #define LANGUAGE_RU 10
 #define LANGUAGE_EN 1
 #define LANGUAGE_JP 0
-#define NEW_REC 0
+bool NEW_REC = false;
 int loaded = 0;
 
 int pxx, pyy;
 
 C2D_TextBuf mainTextBuf, timeBuf, buttonsBuf;
-C2D_Text modesText[5], uiText[10], sysTime, buttons[14], enabled3D, incorrectSystem, ver;
+C2D_Text modesText[5], uiText[10], sysTime, buttons[14], enabled3D, ver;
 static char timeString[9];
+static char *incorrectSystem;
 
 static void sceneInit()
 {
@@ -47,7 +48,7 @@ static void sceneInit()
         C2D_TextParse(&uiText[4], mainTextBuf, "Restart");
         C2D_TextParse(&uiText[5], mainTextBuf, "Open Sys. Settings");
         C2D_TextParse(&enabled3D, mainTextBuf, "3D SCREEN TEST");
-        C2D_TextParse(&incorrectSystem, mainTextBuf, "Error. You're trying to run the wrong version of 3DSCheck! Make sure you select the version that matches your 3DS!");
+        incorrectSystem = "Error. You're trying to run the wrong version of 3DSCheck! Make sure you select the version that matches your 3DS!";
         C2D_TextParse(&ver, mainTextBuf, "[1.0_O3DS.EN]");
     } else if (language == LANGUAGE_JP) {
         C2D_TextParse(&modesText[0], mainTextBuf, "ボタン ");
@@ -62,7 +63,7 @@ static void sceneInit()
         C2D_TextParse(&uiText[4], mainTextBuf, "再起動");
         C2D_TextParse(&uiText[5], mainTextBuf, "本体設定を起動する");
         C2D_TextParse(&enabled3D, mainTextBuf, "3Dスクリーンテスト");
-        C2D_TextParse(&incorrectSystem, mainTextBuf, "エラー。 間違ったバージョンの3DSCheckを実行しようとしています！ 3DSに一致するバージョンを選択してください！");
+        incorrectSystem = "エラー。 間違ったバージョンの3DSCheckを実行しようとしています！ 3DSに一致するバージョンを選択してください！";
         C2D_TextParse(&ver, mainTextBuf, "[1.0_O3DS.JP]");
     } else if (language == LANGUAGE_RU) {
         C2D_TextParse(&modesText[0], mainTextBuf, "Кнопки ");
@@ -77,7 +78,7 @@ static void sceneInit()
         C2D_TextParse(&uiText[4], mainTextBuf, "перезагрузить");
         C2D_TextParse(&uiText[5], mainTextBuf, "открыть настройки");
         C2D_TextParse(&enabled3D, mainTextBuf, "Тест 3D-экрана");
-        C2D_TextParse(&incorrectSystem, mainTextBuf, "Ошибка. Вы пытаетесь запустить не ту версию 3DSCheck! Убедитесь, что вы выбрали версию, соответствующую вашей 3DS!");
+        incorrectSystem = "Ошибка. Вы пытаетесь запустить не ту версию 3DSCheck! Убедитесь, что вы выбрали версию, соответствующую вашей 3DS!";
         C2D_TextParse(&ver, mainTextBuf, "[1.0_O3DS.RU]");
     }
 
@@ -227,9 +228,10 @@ int main()
     bool n3ds = false;
     APT_CheckNew3DS(&n3ds);
     if (n3ds != NEW_REC) {
-        printf("Warning:\nThis app recommends you use O3DS systems.\nYou are running this app on an N3DS system.\n \nThere is another version of this app for N3DS systems.\nPlease consider installing it instead.");
+        //printf("Warning:\nThis app recommends you use O3DS systems.\nYou are running this app on an N3DS system.\n \nThere is another version of this app for N3DS systems.\nPlease consider installing it instead.");
+        printf(incorrectSystem);
+        sleep(5);
     }
-    sleep(5);
     gfxExit();
     sleep(1);
 
@@ -251,7 +253,7 @@ int main()
         // check buttons
         u32 kDown = hidKeysDown();
         u32 kHeld = hidKeysHeld();
-        if (loaded == 0 && n3ds == true)
+        if (loaded == 0)
         {
             if (kDown & KEY_Y)
                 break;
