@@ -55,7 +55,7 @@ static void sceneInit()
         C2D_TextParse(&modesText[1], mainTextBuf, "スクリーン ");
         C2D_TextParse(&modesText[2], mainTextBuf, "タッチ ");
         C2D_TextParse(&modesText[3], mainTextBuf, "ローダへ帰り ");
-        C2D_TextParse(&modesText[4], mainTextBuf, "丸いパッド ");
+        C2D_TextParse(&modesText[4], mainTextBuf, "スライドパッド ");
         C2D_TextParse(&uiText[0], mainTextBuf, "3DSCheck");
         C2D_TextParse(&uiText[1], mainTextBuf, " 帰る");
         C2D_TextParse(&uiText[2], mainTextBuf, "START +  帰る");

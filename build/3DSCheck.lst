@@ -588,55 +588,55 @@
 0012a400 00000040 T __fixunsdfdi
 0012a440 00000044 T strrchr
 0012a484 T _fini
-0012b4e8 R render2d_shbin
-0012b674 R render2d_shbin_end
-0012b674 R render2d_shbin_size
-0012b678 00000005 r colorFmtSizes
-0012b680 00000004 r depthFmtSizes
-0012b684 00000010 r CSWTCH.9
-0012b6f8 00000030 r colorTable
-0012b728 00000070 r dotab_stdout
-0012b7dc 00000008 r morton_x.3
-0012b7e4 00000008 r morton_y.2
-0012b7ec 00000008 r s_sleepWakeEvents.4
-0012b820 R default_font_bin
-0012c020 R default_font_bin_end
-0012c044 00000070 r archive_devoptab
-0012c0b4 00000030 r error_table
-0012c0e4 00000004 R _global_impure_ptr
-0012c124 00000010 r blanks.1
-0012c134 00000010 r zeroes.0
-0012c14c 00000022 r basefix.0
-0012c170 00000010 r blanks.1
-0012c180 00000010 r zeroes.0
-0012c190 00000010 r blanks.1
-0012c1a0 00000010 r zeroes.0
-0012c1b0 00000101 R _ctype_
-0012c2c4 r .LC2
-0012c3a0 00000028 R __mprec_bigtens
-0012c3c8 000000c8 R __mprec_tens
-0012c490 0000000c r p05.0
-0012c4ac 00000014 r fpi.1
-0012c4c0 00000014 r fpinan.0
-0012c4d8 00000028 r tinytens
-0012c500 0000006c R __action_table
-0012c56c 00000100 R __chclass
-0012c66c 0000006c R __state_table
-0012c760 00000100 R __hexdig
-0012c874 000000bc r a1
-0012c930 000000bc r a2
-0012c9ec 0000005b r a3
-0012ca48 00000070 r a6
-0012cab8 000000a2 r a7
-0012cb5c 00000040 r a8
-0012cb9c 0000172a r b02cf
-0012e2c8 00001a7c r d02f4
-0012fd44 0000000c R _C_numeric_locale
-0012fd50 000031e6 r categories
-00132f38 00000070 R dotab_stdnull
-00132fa8 r 
-00132fa8 R __exidx_end
-00132fa8 R __exidx_start
+0012b4f0 R render2d_shbin
+0012b67c R render2d_shbin_end
+0012b67c R render2d_shbin_size
+0012b680 00000005 r colorFmtSizes
+0012b688 00000004 r depthFmtSizes
+0012b68c 00000010 r CSWTCH.9
+0012b700 00000030 r colorTable
+0012b730 00000070 r dotab_stdout
+0012b7e4 00000008 r morton_x.3
+0012b7ec 00000008 r morton_y.2
+0012b7f4 00000008 r s_sleepWakeEvents.4
+0012b828 R default_font_bin
+0012c028 R default_font_bin_end
+0012c04c 00000070 r archive_devoptab
+0012c0bc 00000030 r error_table
+0012c0ec 00000004 R _global_impure_ptr
+0012c12c 00000010 r blanks.1
+0012c13c 00000010 r zeroes.0
+0012c154 00000022 r basefix.0
+0012c178 00000010 r blanks.1
+0012c188 00000010 r zeroes.0
+0012c198 00000010 r blanks.1
+0012c1a8 00000010 r zeroes.0
+0012c1b8 00000101 R _ctype_
+0012c2cc r .LC2
+0012c3a8 00000028 R __mprec_bigtens
+0012c3d0 000000c8 R __mprec_tens
+0012c498 0000000c r p05.0
+0012c4b4 00000014 r fpi.1
+0012c4c8 00000014 r fpinan.0
+0012c4e0 00000028 r tinytens
+0012c508 0000006c R __action_table
+0012c574 00000100 R __chclass
+0012c674 0000006c R __state_table
+0012c768 00000100 R __hexdig
+0012c87c 000000bc r a1
+0012c938 000000bc r a2
+0012c9f4 0000005b r a3
+0012ca50 00000070 r a6
+0012cac0 000000a2 r a7
+0012cb64 00000040 r a8
+0012cba4 0000172a r b02cf
+0012e2d0 00001a7c r d02f4
+0012fd4c 0000000c R _C_numeric_locale
+0012fd58 000031e6 r categories
+00132f40 00000070 R dotab_stdnull
+00132fb0 r 
+00132fb0 R __exidx_end
+00132fb0 R __exidx_start
 00133000 00000004 D uc1
 00133004 00000004 D uc2
 00133008 00000004 D uc3
