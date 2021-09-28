@@ -16,11 +16,12 @@
 #define LANGUAGE_JP 0
 bool NEW_REC = false;
 int loaded = 0;
+bool n3ds = false;
 
 int pxx, pyy;
 
 C2D_TextBuf mainTextBuf, timeBuf, buttonsBuf;
-C2D_Text modesText[5], uiText[10], sysTime, buttons[14], enabled3D, ver;
+C2D_Text modesText[10], uiText[10], sysTime, buttons[14], enabled3D, ver;
 static char timeString[9];
 static char *incorrectSystem;
 
@@ -41,6 +42,7 @@ static void sceneInit()
         C2D_TextParse(&modesText[2], mainTextBuf, "Touchscreen ");
         C2D_TextParse(&modesText[3], mainTextBuf, "Return to HBL ");
         C2D_TextParse(&modesText[4], mainTextBuf, "Stick ");
+        C2D_TextParse(&modesText[5], mainTextBuf, "CStick ");
         C2D_TextParse(&uiText[0], mainTextBuf, "3DSCheck");
         C2D_TextParse(&uiText[1], mainTextBuf, " Back");
         C2D_TextParse(&uiText[2], mainTextBuf, "START +  Back");
@@ -56,6 +58,7 @@ static void sceneInit()
         C2D_TextParse(&modesText[2], mainTextBuf, "タッチ ");
         C2D_TextParse(&modesText[3], mainTextBuf, "ローダへ帰り ");
         C2D_TextParse(&modesText[4], mainTextBuf, "スライドパッド ");
+        C2D_TextParse(&modesText[5], mainTextBuf, "C パッド ");
         C2D_TextParse(&uiText[0], mainTextBuf, "3DSCheck");
         C2D_TextParse(&uiText[1], mainTextBuf, " 帰る");
         C2D_TextParse(&uiText[2], mainTextBuf, "START +  帰る");
@@ -71,6 +74,7 @@ static void sceneInit()
         C2D_TextParse(&modesText[2], mainTextBuf, "Трогать ");
         C2D_TextParse(&modesText[3], mainTextBuf, "Вернуться в HBL ");
         C2D_TextParse(&modesText[4], mainTextBuf, "подушечка ");
+        C2D_TextParse(&modesText[5], mainTextBuf, "PLACEHOLDER ");
         C2D_TextParse(&uiText[0], mainTextBuf, "3DSтест");
         C2D_TextParse(&uiText[1], mainTextBuf, " Возвращение");
         C2D_TextParse(&uiText[2], mainTextBuf, "START +  Возвращение");
@@ -158,6 +162,10 @@ static void sceneRenderTop()
         C2D_DrawText(&modesText[2], C2D_WithColor, 2, 94, 0, 0.5f, 0.5f, white);
         C2D_DrawText(&modesText[3], C2D_WithColor, 2, 214, 0, 0.5f, 0.5f, white);
         C2D_DrawText(&modesText[4], C2D_WithColor, 2, 124, 0, 0.5f, 0.5f, white);
+        if (n3ds) {
+            m_rect(0, 150, 110, 175);
+            C2D_DrawText(&modesText[5], C2D_WithColor, 2, 154, 0, 0.5f, 0.5f, white);
+        }
     }
     else if (loaded == 1)
     {
@@ -185,6 +193,9 @@ static void sceneRenderTop()
     } else if (loaded == 4) {
         drawLStick(pxx, pyy);
         C2D_DrawText(&uiText[1], C2D_WithColor | C2D_AtBaseline, 2, 236, 0, 0.6f, 0.6f, white);
+    } else if (loaded == 6) {
+        drawCStick();
+        C2D_DrawText(&uiText[1], C2D_WithColor | C2D_AtBaseline, 2, 236, 0, 0.6f, 0.6f, white);
     }
     else
     {
@@ -209,7 +220,6 @@ static void sceneRenderBottom()
     {
         rgbsBtm();
     }
-    
 }
 
 void mainMenuSet() {
@@ -225,12 +235,11 @@ int main()
     gfxInitDefault();
 
     consoleInit(GFX_TOP, NULL);
-    bool n3ds = false;
     APT_CheckNew3DS(&n3ds);
     if (n3ds != NEW_REC) {
         //printf("Warning:\nThis app recommends you use O3DS systems.\nYou are running this app on an N3DS system.\n \nThere is another version of this app for N3DS systems.\nPlease consider installing it instead.");
-        printf(incorrectSystem);
-        sleep(5);
+        //printf(incorrectSystem);
+        //sleep(5);
     }
     gfxExit();
     sleep(1);
@@ -261,6 +270,8 @@ int main()
                 loaded = 1;
             if (kDown & KEY_L)
                 loaded = 4;
+            if (kDown & KEY_R)
+                loaded = 6;
             if (kDown & KEY_B) {
                 gfxSet3D(true);
                 loaded = 2;
@@ -318,23 +329,23 @@ int main()
             m_rect(5, 55, 150, 80);
             u32 white = C2D_Color32(0xFF, 0xFF, 0xFF, 0xFF);
             C2D_DrawText(&uiText[4], C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 72, 73, 0, 0.5f, 0.5f, white);
+
             if(touchWithin(tc.px, tc.py, 5, 55, 150, 80)) {
-                //Reboot Code
-			    //aptOpenSession();
-			    APT_HardwareResetAsync();
-			    //aptCloseSession();
+			    APT_HardwareResetAsync(); //reboot
             }
+
             m_rect(5, 85, 150, 110);
             C2D_DrawText(&uiText[5], C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 72, 103, 0, 0.5f, 0.5f, white);
+
             if(touchWithin(tc.px, tc.py, 5, 85, 150, 110)) {
                 u8 region = 1;
                 CFGU_SecureInfoGetRegion(&region);
 
-                if(region == 0) {
+                if(region == 0) { //JP
                     aptSetChainloader(0x0004001000020000LL, 0);
-                } else if (region == 1) {
+                } else if (region == 1) { //US
                     aptSetChainloader(0x0004001000020000LL, 0);
-                } else {
+                } else { //OTHER
                     aptSetChainloader(0x0004001000020000LL, 0);
                 }
                 break;
@@ -349,6 +360,8 @@ int main()
             {
                 touchPosLines(touch.px, touch.py);
             }
+        } else {
+            sceneRenderBottom();
         }
 
         C3D_FrameEnd(0);
