@@ -14,9 +14,9 @@
 #define LANGUAGE_FR 2
 #define LANGUAGE_EN 1
 #define LANGUAGE_JP 0
-bool NEW_REC = false;
 int loaded = 0;
 bool n3ds = false;
+u8 language = 1;
 
 int pxx, pyy;
 
@@ -31,10 +31,6 @@ static void sceneInit()
     mainTextBuf = C2D_TextBufNew(4096); // create text buffers
     timeBuf = C2D_TextBufNew(4096);
     buttonsBuf = C2D_TextBufNew(4096);
-
-    u8 language = 1;
-
-    CFGU_GetSystemLanguage(&language);
 
     if(language == LANGUAGE_EN) {
         C2D_TextParse(&modesText[0], mainTextBuf, "Buttons "); // parse the texts :: i honestly won't care if you yell at me about how untidy this is, if it works, leave it.
@@ -78,7 +74,7 @@ static void sceneInit()
         C2D_TextParse(&uiText[0], mainTextBuf, "3DSVérifier");
         C2D_TextParse(&uiText[1], mainTextBuf, " Retour");
         C2D_TextParse(&uiText[2], mainTextBuf, "START +  Retour");
-        C2D_TextParse(&uiText[3], mainTextBuf, "Options Système");
+        C2D_TextParse(&uiText[3], mainTextBuf, "Système");
         C2D_TextParse(&uiText[4], mainTextBuf, "Redémarrer");
         C2D_TextParse(&uiText[5], mainTextBuf, "Paramètres de Console");
         C2D_TextParse(&enabled3D, mainTextBuf, "Тест 3D-экрана");
@@ -233,14 +229,21 @@ int main()
     cfguInit();
     aptInit();
     gfxInitDefault();
+    CFGU_GetSystemLanguage(&language); // get system language (lol)
 
     consoleInit(GFX_TOP, NULL);
     APT_CheckNew3DS(&n3ds);
-    if (n3ds != NEW_REC) {
-        //printf("Warning:\nThis app recommends you use O3DS systems.\nYou are running this app on an N3DS system.\n \nThere is another version of this app for N3DS systems.\nPlease consider installing it instead.");
-        //printf(incorrectSystem);
-        //sleep(5);
+    if (language == LANGUAGE_FR) {
+        printf("Attention!\n \nLe français n'est pas encore officiellement traduit!\n \n \n \n");
+        printf("Warning!\n \nFrench is not officially translated yet!");
+        sleep(5);
     }
+
+    if (language != 0 && language != 1 && language != 2) {
+        printf("Error: Your selected language is unsupported.\nPlease choose English, Japanese, or French.\n \nSystem Settings will open in 10 seconds.");
+        sleep(10);
+    }
+
     gfxExit();
     sleep(1);
 
@@ -258,6 +261,11 @@ int main()
 
     while (aptMainLoop())
     {
+        if (language != 0 && language != 1 && language != 2) {
+            aptSetChainloader(0x0004001000020000LL, 0);
+            break;
+        }
+
         hidScanInput();
         // check buttons
         u32 kDown = hidKeysDown();
