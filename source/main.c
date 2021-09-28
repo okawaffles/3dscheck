@@ -47,7 +47,7 @@ static void sceneInit()
         C2D_TextParse(&uiText[5], mainTextBuf, "Open Sys. Settings");
         C2D_TextParse(&enabled3D, mainTextBuf, "3D SCREEN TEST");
         incorrectSystem = "Error. You're trying to run the wrong version of 3DSCheck! Make sure you select the version that matches your 3DS!";
-        C2D_TextParse(&ver, mainTextBuf, "EN of v1.1-EJF");
+        C2D_TextParse(&ver, mainTextBuf, "EN of v1.1B-EJF");
     } else if (language == LANGUAGE_JP) {
         C2D_TextParse(&modesText[0], mainTextBuf, "ボタン ");
         C2D_TextParse(&modesText[1], mainTextBuf, "スクリーン ");
@@ -63,7 +63,7 @@ static void sceneInit()
         C2D_TextParse(&uiText[5], mainTextBuf, "本体設定を起動する");
         C2D_TextParse(&enabled3D, mainTextBuf, "3Dスクリーンテスト");
         incorrectSystem = "エラー。 間違ったバージョンの3DSCheckを実行しようとしています！ 3DSに一致するバージョンを選択してください！";
-        C2D_TextParse(&ver, mainTextBuf, "v1.1-EJFのJP");
+        C2D_TextParse(&ver, mainTextBuf, "v1.1B-EJFのJP");
     } else if (language == LANGUAGE_FR) {
         C2D_TextParse(&modesText[0], mainTextBuf, "Botones ");
         C2D_TextParse(&modesText[1], mainTextBuf, "Écran ");
@@ -79,7 +79,7 @@ static void sceneInit()
         C2D_TextParse(&uiText[5], mainTextBuf, "Paramètres de Console");
         C2D_TextParse(&enabled3D, mainTextBuf, "Тест 3D-экрана");
         incorrectSystem = "Erreur. Vous essayez d'exécuter la mauvaise version de 3DSVérifier! Assurez-vous de sélectionner la version qui correspond à votre 3DS!";
-        C2D_TextParse(&ver, mainTextBuf, "FR de v1.1-EJF");
+        C2D_TextParse(&ver, mainTextBuf, "FR de v1.1B-EJF");
     }
 
     C2D_TextOptimize(&modesText[0]);

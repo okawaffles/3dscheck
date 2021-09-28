@@ -40,8 +40,8 @@ GRAPHICS	     :=	gfx
 #GFXBUILD	     :=	$(BUILD)
 ROMFS		     :=	romfs
 GFXBUILD	     :=	$(ROMFS)/gfx
-APP_AUTHOR       := mocha Development Team
-APP_TITLE        := 3DS Check (Old3DS)
+APP_AUTHOR       := mocchai/herubinsu
+APP_TITLE        := 3DSCheck
 APP_DESCRIPTION  := A simple program for testing basic 3DS functions.
 
 #---------------------------------------------------------------------------------
