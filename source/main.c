@@ -33,12 +33,12 @@ static void sceneInit()
     buttonsBuf = C2D_TextBufNew(4096);
 
     if(language == LANGUAGE_EN) {
-        C2D_TextParse(&modesText[0], mainTextBuf, "Buttons "); // parse the texts :: i honestly won't care if you yell at me about how untidy this is, if it works, leave it.
-        C2D_TextParse(&modesText[1], mainTextBuf, "Screens ");
-        C2D_TextParse(&modesText[2], mainTextBuf, "Touchscreen ");
-        C2D_TextParse(&modesText[3], mainTextBuf, "Return to HBL ");
-        C2D_TextParse(&modesText[4], mainTextBuf, "Stick ");
-        C2D_TextParse(&modesText[5], mainTextBuf, "CStick ");
+        C2D_TextParse(&modesText[0], mainTextBuf, " Buttons"); // parse the texts :: i honestly won't care if you yell at me about how untidy this is, if it works, leave it.
+        C2D_TextParse(&modesText[1], mainTextBuf, " Screens");
+        C2D_TextParse(&modesText[2], mainTextBuf, " Touchscreen");
+        C2D_TextParse(&modesText[3], mainTextBuf, "[START] Return to HBL");
+        C2D_TextParse(&modesText[4], mainTextBuf, " Stick");
+        C2D_TextParse(&modesText[5], mainTextBuf, " CStick");
         C2D_TextParse(&uiText[0], mainTextBuf, "3DSCheck");
         C2D_TextParse(&uiText[1], mainTextBuf, " Back");
         C2D_TextParse(&uiText[2], mainTextBuf, "START +  Back");
@@ -47,14 +47,14 @@ static void sceneInit()
         C2D_TextParse(&uiText[5], mainTextBuf, "Open Sys. Settings");
         C2D_TextParse(&enabled3D, mainTextBuf, "3D SCREEN TEST");
         incorrectSystem = "Error. You're trying to run the wrong version of 3DSCheck! Make sure you select the version that matches your 3DS!";
-        C2D_TextParse(&ver, mainTextBuf, "EN of v1.1B-EJF");
+        C2D_TextParse(&ver, mainTextBuf, "EN of v1.1R-EJF");
     } else if (language == LANGUAGE_JP) {
-        C2D_TextParse(&modesText[0], mainTextBuf, "ボタン ");
-        C2D_TextParse(&modesText[1], mainTextBuf, "スクリーン ");
-        C2D_TextParse(&modesText[2], mainTextBuf, "タッチ ");
-        C2D_TextParse(&modesText[3], mainTextBuf, "ローダへ帰り ");
-        C2D_TextParse(&modesText[4], mainTextBuf, "スライドパッド ");
-        C2D_TextParse(&modesText[5], mainTextBuf, "C パッド ");
+        C2D_TextParse(&modesText[0], mainTextBuf, " ボタン");
+        C2D_TextParse(&modesText[1], mainTextBuf, " スクリーン");
+        C2D_TextParse(&modesText[2], mainTextBuf, " タッチ");
+        C2D_TextParse(&modesText[3], mainTextBuf, " ローダへ帰り");
+        C2D_TextParse(&modesText[4], mainTextBuf, " スライドパッド");
+        C2D_TextParse(&modesText[5], mainTextBuf, " C パッド");
         C2D_TextParse(&uiText[0], mainTextBuf, "3DSCheck");
         C2D_TextParse(&uiText[1], mainTextBuf, " 帰る");
         C2D_TextParse(&uiText[2], mainTextBuf, "START +  帰る");
@@ -63,14 +63,14 @@ static void sceneInit()
         C2D_TextParse(&uiText[5], mainTextBuf, "本体設定を起動する");
         C2D_TextParse(&enabled3D, mainTextBuf, "3Dスクリーンテスト");
         incorrectSystem = "エラー。 間違ったバージョンの3DSCheckを実行しようとしています！ 3DSに一致するバージョンを選択してください！";
-        C2D_TextParse(&ver, mainTextBuf, "v1.1B-EJFのJP");
+        C2D_TextParse(&ver, mainTextBuf, "v1.1R-EJFのJP");
     } else if (language == LANGUAGE_FR) {
-        C2D_TextParse(&modesText[0], mainTextBuf, "Botones ");
-        C2D_TextParse(&modesText[1], mainTextBuf, "Écran ");
-        C2D_TextParse(&modesText[2], mainTextBuf, "Écran tactile ");
-        C2D_TextParse(&modesText[3], mainTextBuf, "Retour à HBL ");
-        C2D_TextParse(&modesText[4], mainTextBuf, "Bloc de cercle ");
-        C2D_TextParse(&modesText[5], mainTextBuf, "Bâton C ");
+        C2D_TextParse(&modesText[0], mainTextBuf, " Botones");
+        C2D_TextParse(&modesText[1], mainTextBuf, " Écran");
+        C2D_TextParse(&modesText[2], mainTextBuf, " Écran tactile");
+        C2D_TextParse(&modesText[3], mainTextBuf, " Retour à HBL");
+        C2D_TextParse(&modesText[4], mainTextBuf, " Bloc de cercle");
+        C2D_TextParse(&modesText[5], mainTextBuf, " Bâton C");
         C2D_TextParse(&uiText[0], mainTextBuf, "3DSVérifier");
         C2D_TextParse(&uiText[1], mainTextBuf, " Retour");
         C2D_TextParse(&uiText[2], mainTextBuf, "START +  Retour");
@@ -79,7 +79,7 @@ static void sceneInit()
         C2D_TextParse(&uiText[5], mainTextBuf, "Paramètres de Console");
         C2D_TextParse(&enabled3D, mainTextBuf, "Тест 3D-экрана");
         incorrectSystem = "Erreur. Vous essayez d'exécuter la mauvaise version de 3DSVérifier! Assurez-vous de sélectionner la version qui correspond à votre 3DS!";
-        C2D_TextParse(&ver, mainTextBuf, "FR de v1.1B-EJF");
+        C2D_TextParse(&ver, mainTextBuf, "FR de v1.1R-EJF");
     }
 
     C2D_TextOptimize(&modesText[0]);
@@ -165,7 +165,7 @@ static void sceneRenderTop()
     }
     else if (loaded == 1)
     {
-        checkButtons();
+        checkButtons(n3ds);
         C2D_DrawText(&uiText[2], C2D_WithColor | C2D_AtBaseline, 2, 236, 0, 0.6f, 0.6f, white);
 
         C2D_DrawText(&buttons[0], C2D_WithColor, 330, 112, 0, 0.5f, 0.5f, white); // ABXY, DPAD-UDLR
@@ -180,6 +180,10 @@ static void sceneRenderTop()
         C2D_DrawText(&buttons[11], C2D_WithColor, 105, 192, 0, 0.5f, 0.5f, white);
         C2D_DrawText(&buttons[8], C2D_WithColor, 55, 52, 0, 0.5f, 0.5f, white); // L/R
         C2D_DrawText(&buttons[9], C2D_WithColor, 295, 52, 0, 0.5f, 0.5f, white);
+        if (n3ds) {
+            C2D_DrawText(&buttons[12], C2D_WithColor, 125, 52, 0, 0.5f, 0.5f, white); // ZL/ZR
+            C2D_DrawText(&buttons[13], C2D_WithColor, 255, 52, 0, 0.5f, 0.5f, white);
+        }
     }
     else if (loaded == 2)
     {

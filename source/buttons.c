@@ -2,7 +2,7 @@
 #include <3ds.h>
 #include "mochalibs.h"
 
-void checkButtons()
+void checkButtons(bool n3ds)
 {
     hidScanInput();
     u32 keys = hidKeysHeld();
@@ -34,4 +34,11 @@ void checkButtons()
     m_rect(50, 50, 110, 70);
     if (keys & KEY_R){m_useColor(0x00, 0xFF, 0x00);} else {m_useColor(0xFF, 0x00, 0x00);}
     m_rect(290, 50, 350, 70);
+
+    if (n3ds) {
+        if (keys & KEY_ZL){m_useColor(0x00, 0xFF, 0x00);} else {m_useColor(0xFF, 0x00, 0x00);}
+        m_rect(120, 50, 150, 70);
+        if (keys & KEY_ZR){m_useColor(0x00, 0xFF, 0x00);} else {m_useColor(0xFF, 0x00, 0x00);}
+        m_rect(250, 50, 280, 70);
+    }
 }
