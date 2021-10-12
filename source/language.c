@@ -9,44 +9,44 @@ const char* const g_strings[StrId_Max][16] =
 {
     [StrId_Buttons] =
     {
-        STR_EN("Buttons"),
-        STR_JP("ボタン"),
-        STR_FR("Botones"),
+        STR_EN(" Buttons"),
+        STR_JP(" ボタン"),
+        STR_FR(" Botones"),
     },
 
     [StrId_Screen] =
     {
-        STR_EN("Screen"),
-        STR_JP("スクリーン"),
-        STR_FR("Écran"),
+        STR_EN(" Screen"),
+        STR_JP(" スクリーン"),
+        STR_FR(" Écran"),
     },
 
     [StrId_Touchscreen] =
     {
-        STR_EN("Touchscreen"),
-        STR_JP("タッチ"),
-        STR_FR("Écran tactile"),
+        STR_EN(" Touchscreen"),
+        STR_JP(" タッチ"),
+        STR_FR(" Écran tactile"),
     },
 
     [StrId_Return] =
     {
-        STR_EN("Return to HBL"),
-        STR_JP("ローダへ帰り"),
-        STR_FR("Retour à HBL"),
+        STR_EN(" Return to HBL"),
+        STR_JP(" ローダへ帰り"),
+        STR_FR(" Retour à HBL"),
     },
 
     [StrId_Stick] =
     {
-        STR_EN("Stick"),
-        STR_JP("スライドパッド"),
-        STR_FR("Bloc de cercle"),
+        STR_EN(" Stick"),
+        STR_JP(" スライドパッド"),
+        STR_FR(" Bloc de cercle"),
     },
 
     [StrId_CStick] =
     {
-        STR_EN("CStick"),
-        STR_JP("C パッド"),
-        STR_FR("Bâton C"),
+        STR_EN(" CStick"),
+        STR_JP(" C パッド"),
+        STR_FR(" Bâton C"),
     },
 
     [StrId_3DSCheck] =
@@ -58,9 +58,9 @@ const char* const g_strings[StrId_Max][16] =
 
     [StrId_Back] =
     {
-        STR_EN("Back"),
-        STR_JP("帰る"),
-        STR_FR("Retour"),
+        STR_EN(" Back"),
+        STR_JP(" 帰る"),
+        STR_FR(" Retour"),
     },
 
     [StrId_StartBack] =

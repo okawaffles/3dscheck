@@ -39,55 +39,14 @@ static void sceneInit()
     timeBuf = C2D_TextBufNew(4096);
     buttonsBuf = C2D_TextBufNew(4096);
 
-    // this is the ugliest shit i have ever made but it made me want to kill myself so fuck it
-    // i hate c, why can't you be simple like javascript or python?
-
-    {
-        char string[120];
-        strcpy(string, " ");
-        strcpy(string, textGetString(StrId_Buttons));
-        C2D_TextParse(&modesText[0], mainTextBuf, string);
-    }
-    {
-        char string[120];
-        strcpy(string, " ");
-        strcpy(string, textGetString(StrId_Screen));
-        C2D_TextParse(&modesText[1], mainTextBuf, string);
-    }
-    {
-        char string[120];
-        strcpy(string, " ");
-        strcpy(string, textGetString(StrId_Touchscreen));
-        C2D_TextParse(&modesText[2], mainTextBuf, string);
-    }
-    {
-        char string[120];
-        strcpy(string, " ");
-        strcpy(string, textGetString(StrId_Return));
-        C2D_TextParse(&modesText[3], mainTextBuf, string);
-    }
-    {
-        char string[120];
-        strcpy(string, " ");
-        strcpy(string, textGetString(StrId_Stick));
-        C2D_TextParse(&modesText[4], mainTextBuf, string);
-    }
-    {
-        char string[120];
-        strcpy(string, " ");
-        strcpy(string, textGetString(StrId_CStick));
-        C2D_TextParse(&modesText[5], mainTextBuf, string);
-    }
-    // we're halfway there ig
-    {
-        char string[120];
-        strcpy(string, " ");
-        strcpy(string, textGetString(StrId_Back));
-        C2D_TextParse(&uiText[1], mainTextBuf, string);
-    }
-
-
+    C2D_TextParse(&modesText[0], mainTextBuf, textGetString(StrId_Buttons));
+    C2D_TextParse(&modesText[1], mainTextBuf, textGetString(StrId_Screen));
+    C2D_TextParse(&modesText[2], mainTextBuf, textGetString(StrId_Touchscreen));
+    C2D_TextParse(&modesText[3], mainTextBuf, textGetString(StrId_Return));
+    C2D_TextParse(&modesText[4], mainTextBuf, textGetString(StrId_Stick));
+    C2D_TextParse(&modesText[5], mainTextBuf, textGetString(StrId_CStick));
     C2D_TextParse(&uiText[0], mainTextBuf, textGetString(StrId_3DSCheck));
+    C2D_TextParse(&uiText[1], mainTextBuf, textGetString(StrId_Back));
     C2D_TextParse(&uiText[2], mainTextBuf, textGetString(StrId_StartBack));
     C2D_TextParse(&uiText[3], mainTextBuf, textGetString(StrId_SysOpt));
     C2D_TextParse(&uiText[4], mainTextBuf, textGetString(StrId_Restart));
@@ -250,16 +209,6 @@ int main()
     
     consoleInit(GFX_TOP, NULL);
     APT_CheckNew3DS(&n3ds);
-    if (language == LANGUAGE_FR) {
-        printf("Attention!\n \nLe français n'est pas encore officiellement traduit!\n \n \n \n");
-        printf("Warning!\n \nFrench is not officially translated yet!");
-        sleep(5);
-    }
-
-    if (language != 0 && language != 1 && language != 2) {
-        printf("Error: Your selected language is unsupported.\nPlease choose English, Japanese, or French.\n \nSystem Settings will open in 10 seconds.");
-        sleep(10);
-    }
 
     gfxExit();
     sleep(1);
