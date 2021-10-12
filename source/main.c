@@ -39,20 +39,55 @@ static void sceneInit()
     timeBuf = C2D_TextBufNew(4096);
     buttonsBuf = C2D_TextBufNew(4096);
 
-    char test[120];
+    // this is the ugliest shit i have ever made but it made me want to kill myself so fuck it
+    // i hate c, why can't you be simple like javascript or python?
 
-    strcpy(test, " ");
-    strcpy(test, textGetString(StrId_Buttons));
-    C2D_TextParse(&modesText[0], mainTextBuf, test);
-    test = " ";
-    strcpy(test, textGetString(StrId_Screen));
-    C2D_TextParse(&modesText[1], mainTextBuf, test);
-    C2D_TextParse(&modesText[2], mainTextBuf, " " + textGetString(StrId_Touchscreen));
-    C2D_TextParse(&modesText[3], mainTextBuf, " " + textGetString(StrId_Return));
-    C2D_TextParse(&modesText[4], mainTextBuf, " " + textGetString(StrId_Stick));
-    C2D_TextParse(&modesText[5], mainTextBuf, " " + textGetString(StrId_CStick));
+    {
+        char string[120];
+        strcpy(string, " ");
+        strcpy(string, textGetString(StrId_Buttons));
+        C2D_TextParse(&modesText[0], mainTextBuf, string);
+    }
+    {
+        char string[120];
+        strcpy(string, " ");
+        strcpy(string, textGetString(StrId_Screen));
+        C2D_TextParse(&modesText[1], mainTextBuf, string);
+    }
+    {
+        char string[120];
+        strcpy(string, " ");
+        strcpy(string, textGetString(StrId_Touchscreen));
+        C2D_TextParse(&modesText[2], mainTextBuf, string);
+    }
+    {
+        char string[120];
+        strcpy(string, " ");
+        strcpy(string, textGetString(StrId_Return));
+        C2D_TextParse(&modesText[3], mainTextBuf, string);
+    }
+    {
+        char string[120];
+        strcpy(string, " ");
+        strcpy(string, textGetString(StrId_Stick));
+        C2D_TextParse(&modesText[4], mainTextBuf, string);
+    }
+    {
+        char string[120];
+        strcpy(string, " ");
+        strcpy(string, textGetString(StrId_CStick));
+        C2D_TextParse(&modesText[5], mainTextBuf, string);
+    }
+    // we're halfway there ig
+    {
+        char string[120];
+        strcpy(string, " ");
+        strcpy(string, textGetString(StrId_Back));
+        C2D_TextParse(&uiText[1], mainTextBuf, string);
+    }
+
+
     C2D_TextParse(&uiText[0], mainTextBuf, textGetString(StrId_3DSCheck));
-    C2D_TextParse(&uiText[1], mainTextBuf, " " + textGetString(StrId_Back));
     C2D_TextParse(&uiText[2], mainTextBuf, textGetString(StrId_StartBack));
     C2D_TextParse(&uiText[3], mainTextBuf, textGetString(StrId_SysOpt));
     C2D_TextParse(&uiText[4], mainTextBuf, textGetString(StrId_Restart));
