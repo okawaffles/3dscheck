@@ -1,4 +1,5 @@
 #include "language.h"
+#include <string.h>
 
 #define STR_JP(_str) [CFG_LANGUAGE_JP] = _str
 #define STR_EN(_str) [CFG_LANGUAGE_EN] = _str

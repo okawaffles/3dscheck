@@ -7,6 +7,7 @@
 #include "screens.h"
 #include "sticks.h"
 #include "main.h"
+#include "language.h"
 #define SCREEN_WIDTH_TOP 400
 #define SCREEN_HEIGHT_TOP 240
 #define SCREEN_WIDTH_BOTTOM 320
@@ -23,11 +24,10 @@ int pxx, pyy;
 C2D_TextBuf mainTextBuf, timeBuf, buttonsBuf;
 C2D_Text modesText[10], uiText[10], sysTime, buttons[14], enabled3D, ver;
 static char timeString[9];
-static char *incorrectSystem;
 
 const char* textGetString(StrId id)
 {
-	const char* str = g_strings[id][s_textLang];
+	const char* str = g_strings[id][language];
 	if (!str) str = g_strings[id][CFG_LANGUAGE_EN];
 	return str;
 }
@@ -39,8 +39,14 @@ static void sceneInit()
     timeBuf = C2D_TextBufNew(4096);
     buttonsBuf = C2D_TextBufNew(4096);
 
-    C2D_TextParse(&modesText[0], mainTextBuf, " " + textGetString(StrId_Buttons));
-    C2D_TextParse(&modesText[1], mainTextBuf, " " + textGetString(StrId_Screen));
+    char test[120];
+
+    strcpy(test, " ");
+    strcpy(test, textGetString(StrId_Buttons));
+    C2D_TextParse(&modesText[0], mainTextBuf, test);
+    test = " ";
+    strcpy(test, textGetString(StrId_Screen));
+    C2D_TextParse(&modesText[1], mainTextBuf, test);
     C2D_TextParse(&modesText[2], mainTextBuf, " " + textGetString(StrId_Touchscreen));
     C2D_TextParse(&modesText[3], mainTextBuf, " " + textGetString(StrId_Return));
     C2D_TextParse(&modesText[4], mainTextBuf, " " + textGetString(StrId_Stick));
@@ -206,7 +212,7 @@ int main()
     aptInit();
     gfxInitDefault();
     CFGU_GetSystemLanguage(&language); // get system language (lol)
-
+    
     consoleInit(GFX_TOP, NULL);
     APT_CheckNew3DS(&n3ds);
     if (language == LANGUAGE_FR) {

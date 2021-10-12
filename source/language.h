@@ -1,10 +1,11 @@
 #pragma once
 
 #include <3ds.h>
+#include <string.h>
 
 typedef enum
 {
-    StrId_Buttons,
+    StrId_Buttons = 0,
     StrId_Screen,
     StrId_Touchscreen,
     StrId_Return,
