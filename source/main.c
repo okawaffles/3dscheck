@@ -227,11 +227,6 @@ int main()
 
     while (aptMainLoop())
     {
-        if (language != 0 && language != 1 && language != 2) {
-            aptSetChainloader(0x0004001000020000LL, 0);
-            break;
-        }
-
         hidScanInput();
         // check buttons
         u32 kDown = hidKeysDown();
