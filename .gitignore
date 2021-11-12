@@ -3,4 +3,6 @@
 /3DSCheck.elf
 /makelinkB.cmd
 /makelinkO.cmd
+/makelink.cmd
 /build/
+/.vscode/
