@@ -1,4 +1,4 @@
-buttons.o: C:/Users/321ha/Desktop/code_stuff/3DSCheck/source/buttons.c \
+buttons.o: D:/code_stuff/3DSCheck/source/buttons.c \
  C:/devkitPro/libctru/include/citro2d.h \
  C:/devkitPro/libctru/include/citro3d.h \
  C:/devkitPro/libctru/include/c3d/types.h \
@@ -103,7 +103,7 @@ buttons.o: C:/Users/321ha/Desktop/code_stuff/3DSCheck/source/buttons.c \
  C:/devkitPro/libctru/include/c2d/sprite.h \
  C:/devkitPro/libctru/include/c2d/text.h \
  C:/devkitPro/libctru/include/c2d/font.h \
- C:/Users/321ha/Desktop/code_stuff/3DSCheck/source/mochalibs.h
+ D:/code_stuff/3DSCheck/source/mochalibs.h
 C:/devkitPro/libctru/include/citro2d.h:
 C:/devkitPro/libctru/include/citro3d.h:
 C:/devkitPro/libctru/include/c3d/types.h:
@@ -208,4 +208,4 @@ C:/devkitPro/libctru/include/c2d/spritesheet.h:
 C:/devkitPro/libctru/include/c2d/sprite.h:
 C:/devkitPro/libctru/include/c2d/text.h:
 C:/devkitPro/libctru/include/c2d/font.h:
-C:/Users/321ha/Desktop/code_stuff/3DSCheck/source/mochalibs.h:
+D:/code_stuff/3DSCheck/source/mochalibs.h:

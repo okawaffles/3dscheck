@@ -19,6 +19,9 @@ typedef enum
     StrId_SysSettings,
     StrId_3DScreenCheck,
     StrId_Version,
+    StrId_Language,
+    StrId_Tools,
+    StrId_CustomChainload,
     
     StrId_Max,
 } StrId;
