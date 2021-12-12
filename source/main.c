@@ -52,7 +52,7 @@ static void sceneInit()
     C2D_TextParse(&uiText[4], mainTextBuf, textGetString(StrId_Restart));
     C2D_TextParse(&uiText[5], mainTextBuf, textGetString(StrId_SysSettings));
     C2D_TextParse(&enabled3D, mainTextBuf, textGetString(StrId_3DScreenCheck));
-    C2D_TextParse(&ver, mainTextBuf, textGetString(StrId_Version));
+    C2D_TextParse(&ver, mainTextBuf, textGetString(StrId_Language));
 
     C2D_TextOptimize(&modesText[0]);
     C2D_TextOptimize(&modesText[1]);

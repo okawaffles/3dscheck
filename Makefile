@@ -40,7 +40,7 @@ GRAPHICS	     :=	gfx
 #GFXBUILD	     :=	$(BUILD)
 ROMFS		     :=	romfs
 GFXBUILD	     :=	$(ROMFS)/gfx
-APP_AUTHOR       := mocchai/herubinsu
+APP_AUTHOR       := okawaffles
 APP_TITLE        := 3DSCheck
 APP_DESCRIPTION  := A simple program for testing basic 3DS functions.
 

@@ -37,7 +37,7 @@ const char* const g_strings[StrId_Max][16] =
         STR_EN(" Return to HBL"),
         STR_JP(" ローダへ帰り"),
         STR_FR(" Retour à HBL"),
-        STR_ES(" Regresar a HBL"),
+        STR_ES(" Dejar a HBL"),
     },
 
     [StrId_Stick] =
@@ -45,7 +45,7 @@ const char* const g_strings[StrId_Max][16] =
         STR_EN(" Stick"),
         STR_JP(" スライドパッド"),
         STR_FR(" Bloc de cercle"),
-        STR_ES(" Botón deslizante"),
+        STR_ES(" Botón desliz."),
     },
 
     [StrId_CStick] =
@@ -101,7 +101,7 @@ const char* const g_strings[StrId_Max][16] =
         STR_EN("Open Sys. Settings"),
         STR_JP("本体設定を起動する"),
         STR_FR("Paramètres de Console"),
-        STR_ES("Configuración de la Consola"),
+        STR_ES("Config. de la Consola"),
     },
 
     [StrId_3DScreenCheck] =
@@ -114,10 +114,10 @@ const char* const g_strings[StrId_Max][16] =
 
     [StrId_Version] =
     {
-        STR_EN("EN of v1.3R-EJFS"),
-        STR_JP("v1.3R-EJFSのJP"),
-        STR_FR("FR de v1.3R-EJFS"),
-        STR_ES("ES de v1.3R-EJFS"),
+        STR_EN("EN of v1.5R-EJFS"),
+        STR_JP("v1.5R-EJFSのJP"),
+        STR_FR("FR de v1.5R-EJFS"),
+        STR_ES("ES de v1.5R-EJFS"),
     },
 
     [StrId_Language] =
@@ -145,7 +145,7 @@ const char* const g_strings[StrId_Max][16] =
     },
 };
 
-const char buttons[13];
+/* const char buttons[14];
 buttons[0] = "A";
 buttons[1] = "B";
 buttons[2] = "X";
@@ -159,8 +159,10 @@ buttons[9] = "R";
 buttons[10] = "SELECT";
 buttons[11] = "START";
 buttons[12] = "ZL";
-buttons[13] = "ZR";
+buttons[13] = "ZR";*/
+
+/*const enum buttons[] = { 'A', 'B', 'X', 'Y', "DU", "DD", "DL", "DR", 'L', 'R', "SELECT", "START", "ZL", "ZR" };
 
 int returnBtn(int id) {
     return(buttons[id]);
-}
+}*/
