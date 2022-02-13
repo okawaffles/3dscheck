@@ -1,7 +1,3 @@
-#ifndef BUTTONS_H_INCLUDED
-#define BUTTONS_H_INCLUDED
+#pragma once
 
 void checkButtons(bool n3ds);
-
-
-#endif

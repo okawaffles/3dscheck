@@ -1,7 +1,4 @@
-#ifndef SCREENS_H_INCLUDED
-#define SCREENS_H_INCLUDED
+#pragma once
 
 void rgbsTop(void);
 void rgbsBtm(void);
-
-#endif

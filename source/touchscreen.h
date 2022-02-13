@@ -1,6 +1,3 @@
-#ifndef TOUCHSCREEN_H_INCLUDED
-#define TOUCHSCREEN_H_INCLUDED
+#pragma once
 
 void touchPosLines(float tX, float tY);
-
-#endif
