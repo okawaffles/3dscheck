@@ -108,7 +108,7 @@ const char* const g_strings[StrId_Max][16] =
     {
         STR_EN("3D SCREEN TEST"),
         STR_JP("3Dスクリーンテスト"),
-        STR_FR("Vérification de l'écran 3D"),
+        STR_FR("Test de l'écran 3D"),
         STR_ES("Verificación de pantalla 3D"),
     },
 
