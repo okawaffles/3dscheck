@@ -1,4 +1,4 @@
-#include "mochalibs.h"
+#include "okalibs.h"
 #include <citro2d.h>
 int uc1 = 0xFF;
 int uc2 = 0xFF;

@@ -1,6 +1,6 @@
 #include <citro2d.h>
 #include <3ds.h>
-#include "mochalibs.h"
+#include "okalibs.h"
 
 void touchPosLines(float tX, float tY)
 {

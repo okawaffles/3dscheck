@@ -1,12 +1,12 @@
 #include <citro2d.h>
 #include <3ds.h>
 #include <unistd.h>
-#include "mochalibs.h"
+#include "okalibs.h"
 #include "touchscreen.h"
 #include "buttons.h"
 #include "screens.h"
-#include "sticks.h"
 #include "main.h"
+#include "sticks.h"
 #include "language.h"
 #define SCREEN_WIDTH_TOP 400
 #define SCREEN_HEIGHT_TOP 240
@@ -194,10 +194,6 @@ static void sceneRenderBottom()
     }
 }
 
-void mainMenuSet() {
-    loaded = 0;
-}
-
 int main()
 {
     //init stuff
@@ -349,4 +345,8 @@ int main()
     gfxExit();
     cfguExit();
     return 0;
+}
+
+void mainMenuSet() {
+    loaded = 0;
 }
