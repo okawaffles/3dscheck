@@ -120,19 +120,19 @@ static void sceneRenderTop()
     if (loaded == 0) // only draw test options if no option is loaded
     {
         // test options
-        m_rect(0, 30, 110, 55);
-        m_rect(0, 60, 110, 85);
-        m_rect(0, 90, 110, 115);
-        m_rect(0, 120, 110, 145);
-        m_rect(0, 210, 110, 235);
-        C2D_DrawText(&modesText[0], C2D_WithColor, 2, 34, 0, 0.5f, 0.5f, white);
-        C2D_DrawText(&modesText[1], C2D_WithColor, 2, 64, 0, 0.5f, 0.5f, white);
-        C2D_DrawText(&modesText[2], C2D_WithColor, 2, 94, 0, 0.5f, 0.5f, white);
-        C2D_DrawText(&modesText[3], C2D_WithColor, 2, 214, 0, 0.5f, 0.5f, white);
-        C2D_DrawText(&modesText[4], C2D_WithColor, 2, 124, 0, 0.5f, 0.5f, white);
+        m_rect(0, 30, 150, 55);
+        m_rect(0, 60, 150, 85);
+        m_rect(0, 90, 150, 115);
+        m_rect(0, 120, 150, 145);
+        m_rect(0, 210, 150, 235);
+        C2D_DrawText(&modesText[0], C2D_WithColor, 4, 34, 0, 0.5f, 0.5f, white);
+        C2D_DrawText(&modesText[1], C2D_WithColor, 4, 64, 0, 0.5f, 0.5f, white);
+        C2D_DrawText(&modesText[2], C2D_WithColor, 4, 94, 0, 0.5f, 0.5f, white);
+        C2D_DrawText(&modesText[3], C2D_WithColor, 4, 214, 0, 0.5f, 0.5f, white);
+        C2D_DrawText(&modesText[4], C2D_WithColor, 4, 124, 0, 0.5f, 0.5f, white);
         if (n3ds) {
-            m_rect(0, 150, 110, 175);
-            C2D_DrawText(&modesText[5], C2D_WithColor, 2, 154, 0, 0.5f, 0.5f, white);
+            m_rect(0, 150, 150, 175);
+            C2D_DrawText(&modesText[5], C2D_WithColor, 4, 154, 0, 0.5f, 0.5f, white);
         }
     }
     else if (loaded == 1)
@@ -200,14 +200,12 @@ int main()
     srvInit();
     cfguInit();
     aptInit();
-    gfxInitDefault();
     CFGU_GetSystemLanguage(&language); // get system language (lol)
-    
-    consoleInit(GFX_TOP, NULL);
-    APT_CheckNew3DS(&n3ds);
+    APT_CheckNew3DS(&n3ds); // enable or disable n3ds features
 
-    gfxExit();
-    sleep(1);
+    //consoleInit(GFX_TOP, NULL);//  <-- used during non-univ releases 
+    //gfxExit();
+    //sleep(1);
 
     gfxInitDefault();
     C3D_Init(C3D_DEFAULT_CMDBUF_SIZE);
@@ -280,10 +278,10 @@ int main()
             hidTouchRead(&tc);
             sceneRenderBottom();
             m_useColor(0x48, 0x54, 0x63);
-            m_rect(5, 5, 100, 30);
+            m_rect(5, 5, 310, 30);
             u32 white = C2D_Color32(0xFF, 0xFF, 0xFF, 0xFF);
-            C2D_DrawText(&uiText[3], C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 50, 23, 0, 0.5f, 0.5f, white);
-            if(touchWithin(tc.px, tc.py, 5, 5, 100, 30)) {
+            C2D_DrawText(&uiText[3], C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 160, 23, 0, 0.5f, 0.5f, white);
+            if(touchWithin(tc.px, tc.py, 5, 5, 310, 30)) {
                 loaded = 5;
             }
         } else if (loaded == 5) {
@@ -291,18 +289,18 @@ int main()
             hidTouchRead(&tc);
             sceneRenderBottom();
             m_useColor(0x48, 0x54, 0x63);
-            m_rect(5, 55, 150, 80);
+            m_rect(5, 55, 310, 80);
             u32 white = C2D_Color32(0xFF, 0xFF, 0xFF, 0xFF);
-            C2D_DrawText(&uiText[4], C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 72, 73, 0, 0.5f, 0.5f, white);
+            C2D_DrawText(&uiText[4], C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 160, 73, 0, 0.5f, 0.5f, white);
 
-            if(touchWithin(tc.px, tc.py, 5, 55, 150, 80)) {
+            if(touchWithin(tc.px, tc.py, 5, 55, 310, 80)) {
 			    APT_HardwareResetAsync(); //reboot
             }
 
-            m_rect(5, 85, 150, 110);
-            C2D_DrawText(&uiText[5], C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 72, 103, 0, 0.5f, 0.5f, white);
+            m_rect(5, 85, 310, 110);
+            C2D_DrawText(&uiText[5], C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 160, 103, 0, 0.5f, 0.5f, white);
 
-            if(touchWithin(tc.px, tc.py, 5, 85, 150, 110)) {
+            if(touchWithin(tc.px, tc.py, 5, 85, 310, 110)) {
                 u8 region = 1;
                 CFGU_SecureInfoGetRegion(&region);
 
