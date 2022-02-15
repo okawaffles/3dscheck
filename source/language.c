@@ -45,7 +45,7 @@ const char* const g_strings[StrId_Max][16] =
         STR_EN(" Stick"),
         STR_JP(" スライドパッド"),
         STR_FR(" Bloc de cercle"),
-        STR_ES(" Botón desliz."),
+        STR_ES(" Botón deslizante"),
     },
 
     [StrId_CStick] =
@@ -82,7 +82,7 @@ const char* const g_strings[StrId_Max][16] =
 
     [StrId_SysOpt] =
     {
-        STR_EN("Sys. Opt."),
+        STR_EN("System Options"),
         STR_JP("本体設定"),
         STR_FR("Système"),
         STR_ES("Consola"),
@@ -98,10 +98,10 @@ const char* const g_strings[StrId_Max][16] =
 
     [StrId_SysSettings] =
     {
-        STR_EN("Open Sys. Settings"),
+        STR_EN("Open System Settings"),
         STR_JP("本体設定を起動する"),
         STR_FR("Paramètres de Console"),
-        STR_ES("Config. de la Consola"),
+        STR_ES("Configuración de la Consola"),
     },
 
     [StrId_3DScreenCheck] =

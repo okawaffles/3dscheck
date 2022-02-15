@@ -18,12 +18,14 @@
 int loaded = 0;
 bool n3ds = false;
 u8 language = 1;
+u8 battery[16];
 
 int pxx, pyy;
 
 C2D_TextBuf mainTextBuf, timeBuf, buttonsBuf;
 C2D_Text modesText[10], uiText[10], sysTime, buttons[14], enabled3D, ver;
 static char timeString[9];
+//static char batteryString[1];
 
 const char* textGetString(StrId id)
 {
@@ -97,12 +99,13 @@ static void sceneExit(void)
 
 static void sceneRenderTop()
 {
+    MCUHWC_GetBatteryLevel(battery);
     C2D_TextBufClear(timeBuf); // reset time buffer
 
     u64 timeInSeconds = osGetTime() / 1000;                    // --------------------------------- //
     u64 dayTime = timeInSeconds % 86400;                       //                                   //
     u8 hour = dayTime / 3600;                                  // Set up all the stuff for time     //
-    u8 min = (dayTime % 3600) / 60;                            // ありがとう fincs!                  //
+    u8 min = (dayTime % 3600) / 60;                            // ありがとう whoever did this        //
     u8 seconds = dayTime % 60;                                 //                                   //
     sprintf(timeString, "%02d:%02d:%02d", hour, min, seconds); // --------------------------------- //
 
@@ -111,7 +114,12 @@ static void sceneRenderTop()
     adv_background(0x35, 0x3E, 0x4A);
     m_rect(0, 0, 400, 20);
     C2D_DrawText(&uiText[0], C2D_WithColor, 2, 2, 0, 0.5f, 0.5f, white);
-    C2D_DrawText(&ver, C2D_WithColor | C2D_AlignRight, 398, 2, 0, 0.5f, 0.5f, white);
+    C2D_DrawText(&ver, C2D_WithColor | C2D_AlignRight | C2D_AtBaseline, 398, 238 , 0, 0.5f, 0.5f, white);
+
+    /*sprintf(batteryString, "%d", *battery);
+    C2D_TextParse(&uiText[6], mainTextBuf, batteryString); // draw battery
+    C2D_TextOptimize(&uiText[6]);
+    C2D_DrawText(&uiText[6], C2D_WithColor | C2D_AlignRight, 398, 2, 0, 0.5f, 0.5f, white);*/
 
     C2D_TextParse(&sysTime, timeBuf, timeString); // draw time
     C2D_TextOptimize(&sysTime);
@@ -200,6 +208,7 @@ int main()
     srvInit();
     cfguInit();
     aptInit();
+    mcuHwcInit();
     CFGU_GetSystemLanguage(&language); // get system language (lol)
     APT_CheckNew3DS(&n3ds); // enable or disable n3ds features
 
@@ -338,6 +347,7 @@ int main()
     // Deinit libs
     C2D_Fini();
     C3D_Fini();
+    mcuHwcExit();
     aptExit();
 	srvExit();
     gfxExit();
