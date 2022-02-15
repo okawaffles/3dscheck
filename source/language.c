@@ -143,6 +143,14 @@ const char* const g_strings[StrId_Max][16] =
         STR_FR("Chargeur personnalisé"),
         STR_ES("Cargador de Personalizado"),
     },
+
+    [StrId_LowBattery] =
+    {
+        STR_EN("! Low Battery !"),
+        STR_JP("! 低いバッテリー !"),
+        STR_FR("! Batterie faible !"),
+        STR_ES("! Batería baja !"),
+    },
 };
 
 /* const char buttons[14];

@@ -53,6 +53,7 @@ static void sceneInit()
     C2D_TextParse(&uiText[3], mainTextBuf, textGetString(StrId_SysOpt));
     C2D_TextParse(&uiText[4], mainTextBuf, textGetString(StrId_Restart));
     C2D_TextParse(&uiText[5], mainTextBuf, textGetString(StrId_SysSettings));
+    C2D_TextParse(&uiText[6], mainTextBuf, textGetString(StrId_LowBattery));
     C2D_TextParse(&enabled3D, mainTextBuf, textGetString(StrId_3DScreenCheck));
     C2D_TextParse(&ver, mainTextBuf, textGetString(StrId_Language));
 
@@ -67,6 +68,8 @@ static void sceneInit()
     C2D_TextOptimize(&uiText[2]);
     C2D_TextOptimize(&uiText[3]);
     C2D_TextOptimize(&uiText[4]);
+    C2D_TextOptimize(&uiText[5]);
+    C2D_TextOptimize(&uiText[6]);
     C2D_TextOptimize(&ver);
 
     C2D_TextParse(&buttons[0], buttonsBuf, "A");
@@ -110,12 +113,21 @@ static void sceneRenderTop()
     sprintf(timeString, "%02d:%02d:%02d", hour, min, seconds); // --------------------------------- //
 
     u32 white = C2D_Color32(0xFF, 0xFF, 0xFF, 0xFF); // draw main UI
-    m_useColor(0x37, 0x67, 0x70);
+
+    if (battery <= 20) {
+        m_useColor(0x7A, 0x00, 0x00); // warning color
+    } else {
+        m_useColor(0x37, 0x67, 0x70); // normal color
+    }
     adv_background(0x35, 0x3E, 0x4A);
     m_rect(0, 0, 400, 20);
     C2D_DrawText(&uiText[0], C2D_WithColor, 2, 2, 0, 0.5f, 0.5f, white);
     C2D_DrawText(&ver, C2D_WithColor | C2D_AlignRight | C2D_AtBaseline, 398, 238 , 0, 0.5f, 0.5f, white);
 
+    m_useColor(0x37, 0x67, 0x70);
+
+    if (battery <= 20)
+        C2D_DrawText(&sysTime, C2D_WithColor | C2D_AlignRight, 398, 2, 0, 0.5f, 0.5f, white);
     /*sprintf(batteryString, "%d", *battery);
     C2D_TextParse(&uiText[6], mainTextBuf, batteryString); // draw battery
     C2D_TextOptimize(&uiText[6]);
