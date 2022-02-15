@@ -1,13 +1,16 @@
+// libraries
 #include <citro2d.h>
 #include <3ds.h>
 #include <unistd.h>
 #include "okalibs.h"
+// external functions
 #include "touchscreen.h"
 #include "buttons.h"
 #include "screens.h"
 #include "main.h"
 #include "sticks.h"
 #include "language.h"
+// define some extra stuff 
 #define SCREEN_WIDTH_TOP 400
 #define SCREEN_HEIGHT_TOP 240
 #define SCREEN_WIDTH_BOTTOM 320
@@ -15,18 +18,20 @@
 #define LANGUAGE_FR 2
 #define LANGUAGE_EN 1
 #define LANGUAGE_JP 0
-int loaded = 0;
-bool n3ds = false;
-u8 language = 1;
-u8 battery[16];
+// variables
+int loaded = 0; // to select which test is running
+bool n3ds = false; // n3ds to be assigned, false by default
+u8 language = 0; // language to be assigned, JP by default
+u8 battery[16]; // battery level
+int pxx, pyy; // circle pad vars
 
-int pxx, pyy;
-
-C2D_TextBuf mainTextBuf, timeBuf, buttonsBuf;
+// text strings and buffers
+C2D_TextBuf mainTextBuf, timeBuf, buttonsBuf; 
 C2D_Text modesText[10], uiText[10], sysTime, buttons[14], enabled3D, ver;
 static char timeString[9];
-//static char batteryString[1];
 
+// function to get from language.c/h
+// taken from homebrew launcher code
 const char* textGetString(StrId id)
 {
 	const char* str = g_strings[id][language];
@@ -34,13 +39,14 @@ const char* textGetString(StrId id)
 	return str;
 }
 
+// initiaize scene
 static void sceneInit()
 {
-
     mainTextBuf = C2D_TextBufNew(4096); // create text buffers
     timeBuf = C2D_TextBufNew(4096);
     buttonsBuf = C2D_TextBufNew(4096);
 
+    // get text strings
     C2D_TextParse(&modesText[0], mainTextBuf, textGetString(StrId_Buttons));
     C2D_TextParse(&modesText[1], mainTextBuf, textGetString(StrId_Screen));
     C2D_TextParse(&modesText[2], mainTextBuf, textGetString(StrId_Touchscreen));
@@ -57,6 +63,7 @@ static void sceneInit()
     C2D_TextParse(&enabled3D, mainTextBuf, textGetString(StrId_3DScreenCheck));
     C2D_TextParse(&ver, mainTextBuf, textGetString(StrId_Language));
 
+    // optimize text strings
     C2D_TextOptimize(&modesText[0]);
     C2D_TextOptimize(&modesText[1]);
     C2D_TextOptimize(&modesText[2]);
@@ -72,6 +79,7 @@ static void sceneInit()
     C2D_TextOptimize(&uiText[6]);
     C2D_TextOptimize(&ver);
 
+    // parse and optimize the buttons, plan to improve this later...
     C2D_TextParse(&buttons[0], buttonsBuf, "A");
     C2D_TextParse(&buttons[1], buttonsBuf, "B");
     C2D_TextParse(&buttons[2], buttonsBuf, "X");
@@ -92,6 +100,7 @@ static void sceneInit()
     }
 }
 
+// runs when program is exiting
 static void sceneExit(void)
 {
     // Delete the text buffers
@@ -100,9 +109,10 @@ static void sceneExit(void)
     C2D_TextBufDelete(buttonsBuf);
 }
 
+// render the common top screen elements
 static void sceneRenderTop()
 {
-    MCUHWC_GetBatteryLevel(battery);
+    MCUHWC_GetBatteryLevel(battery); // get battery level
     C2D_TextBufClear(timeBuf); // reset time buffer
 
     u64 timeInSeconds = osGetTime() / 1000;                    // --------------------------------- //
@@ -114,27 +124,23 @@ static void sceneRenderTop()
 
     u32 white = C2D_Color32(0xFF, 0xFF, 0xFF, 0xFF); // draw main UI
 
-    if (battery <= 20) {
+    if (battery <= 20) { // change color if battery is <20% 
         m_useColor(0x7A, 0x00, 0x00); // warning color
     } else {
         m_useColor(0x37, 0x67, 0x70); // normal color
     }
     adv_background(0x35, 0x3E, 0x4A);
-    m_rect(0, 0, 400, 20);
-    C2D_DrawText(&uiText[0], C2D_WithColor, 2, 2, 0, 0.5f, 0.5f, white);
-    C2D_DrawText(&ver, C2D_WithColor | C2D_AlignRight | C2D_AtBaseline, 398, 238 , 0, 0.5f, 0.5f, white);
+    m_rect(0, 0, 400, 20); // top bar
+    C2D_DrawText(&uiText[0], C2D_WithColor, 2, 2, 0, 0.5f, 0.5f, white); // 3DSCheck string
+    C2D_DrawText(&ver, C2D_WithColor | C2D_AlignRight | C2D_AtBaseline, 398, 238 , 0, 0.5f, 0.5f, white); // Language string
 
-    m_useColor(0x37, 0x67, 0x70);
+    m_useColor(0x37, 0x67, 0x70); // switch back to normal color regardless of battery
 
-    if (battery <= 20)
+    if (battery <= 20) // show battery warning
         C2D_DrawText(&sysTime, C2D_WithColor | C2D_AlignRight, 398, 2, 0, 0.5f, 0.5f, white);
-    /*sprintf(batteryString, "%d", *battery);
-    C2D_TextParse(&uiText[6], mainTextBuf, batteryString); // draw battery
-    C2D_TextOptimize(&uiText[6]);
-    C2D_DrawText(&uiText[6], C2D_WithColor | C2D_AlignRight, 398, 2, 0, 0.5f, 0.5f, white);*/
 
     C2D_TextParse(&sysTime, timeBuf, timeString); // draw time
-    C2D_TextOptimize(&sysTime);
+    C2D_TextOptimize(&sysTime); 
     C2D_DrawText(&sysTime, C2D_WithColor | C2D_AlignCenter, 200, 2, 0, 0.5f, 0.5f, white);
 
     if (loaded == 0) // only draw test options if no option is loaded
@@ -150,15 +156,15 @@ static void sceneRenderTop()
         C2D_DrawText(&modesText[2], C2D_WithColor, 4, 94, 0, 0.5f, 0.5f, white);
         C2D_DrawText(&modesText[3], C2D_WithColor, 4, 214, 0, 0.5f, 0.5f, white);
         C2D_DrawText(&modesText[4], C2D_WithColor, 4, 124, 0, 0.5f, 0.5f, white);
-        if (n3ds) {
+        if (n3ds) { // show cStick option is n3ds is enabled.
             m_rect(0, 150, 150, 175);
             C2D_DrawText(&modesText[5], C2D_WithColor, 4, 154, 0, 0.5f, 0.5f, white);
         }
     }
-    else if (loaded == 1)
+    else if (loaded == 1) // buttons
     {
         checkButtons(n3ds);
-        C2D_DrawText(&uiText[2], C2D_WithColor | C2D_AtBaseline, 2, 236, 0, 0.6f, 0.6f, white);
+        C2D_DrawText(&uiText[2], C2D_WithColor | C2D_AtBaseline, 2, 236, 0, 0.6f, 0.6f, white); // show return text
 
         C2D_DrawText(&buttons[0], C2D_WithColor, 330, 112, 0, 0.5f, 0.5f, white); // ABXY, DPAD-UDLR
         C2D_DrawText(&buttons[1], C2D_WithColor, 300, 132, 0, 0.5f, 0.5f, white);
@@ -172,30 +178,30 @@ static void sceneRenderTop()
         C2D_DrawText(&buttons[11], C2D_WithColor, 105, 192, 0, 0.5f, 0.5f, white);
         C2D_DrawText(&buttons[8], C2D_WithColor, 55, 52, 0, 0.5f, 0.5f, white); // L/R
         C2D_DrawText(&buttons[9], C2D_WithColor, 295, 52, 0, 0.5f, 0.5f, white);
-        if (n3ds) {
+        if (n3ds) { //enable zl/zr if n3ds is true
             C2D_DrawText(&buttons[12], C2D_WithColor, 125, 52, 0, 0.5f, 0.5f, white); // ZL/ZR
             C2D_DrawText(&buttons[13], C2D_WithColor, 255, 52, 0, 0.5f, 0.5f, white);
         }
     }
-    else if (loaded == 2)
+    else if (loaded == 2) // screen test
     {
         rgbsTop();
         C2D_DrawText(&uiText[1], C2D_WithColor | C2D_AtBaseline, 2, 236, 0, 0.6f, 0.6f, white);
         C2D_DrawText(&enabled3D, C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 202.5f, 120, 0, 1.0f, 1.0f, white);
-    } else if (loaded == 4) {
+    } else if (loaded == 4) { // Circle pad test
         drawLStick(pxx, pyy);
         C2D_DrawText(&uiText[1], C2D_WithColor | C2D_AtBaseline, 2, 236, 0, 0.6f, 0.6f, white);
-    } else if (loaded == 6) {
+    } else if (loaded == 6) { // C"Stick" test
         drawCStick();
         C2D_DrawText(&uiText[1], C2D_WithColor | C2D_AtBaseline, 2, 236, 0, 0.6f, 0.6f, white);
     }
     else
-    {
+    {   // not sure what this is tbh.
         C2D_DrawText(&uiText[1], C2D_WithColor | C2D_AtBaseline, 2, 236, 0, 0.6f, 0.6f, white);
     }
 }
 
-static void sceneRenderTop3D() {
+static void sceneRenderTop3D() { // for the screen test, only enabled when 3D is on
     u32 white = C2D_Color32(0xFF, 0xFF, 0xFF, 0xFF);
     if (loaded == 2) {
         rgbsTop();
@@ -203,21 +209,20 @@ static void sceneRenderTop3D() {
     }
 }
 
-static void sceneRenderBottom()
+static void sceneRenderBottom() // render common bottom screen elements
 {
-    m_useColor(0x35, 0x3E, 0x4A);
-    m_background();
+    adv_background(0x35, 0x3E, 0x4A);
 
-    if (loaded == 2)
+    if (loaded == 2) // screen test
     {
         rgbsBtm();
     }
 }
 
-int main()
+int main() // main stuff, this is where it gets messy
 {
     //init stuff
-    srvInit();
+    srvInit(); // idk what half of these acronyms stand for, but they are needed
     cfguInit();
     aptInit();
     mcuHwcInit();
@@ -240,10 +245,10 @@ int main()
     C3D_RenderTarget *bottom = C2D_CreateScreenTarget(GFX_BOTTOM, GFX_LEFT);
     sceneInit();
 
-    while (aptMainLoop())
+    while (aptMainLoop()) // loops forever (until quit[break])
     {
-        hidScanInput();
         // check buttons
+        hidScanInput();
         u32 kDown = hidKeysDown();
         u32 kHeld = hidKeysHeld();
         if (loaded == 0)
@@ -269,10 +274,10 @@ int main()
                 gfxSet3D(false);
         }
 
-        touchPosition touch;
+        touchPosition touch; // get touch pos
         hidTouchRead(&touch);
 
-        //render loaded
+        // render what's needed
         C3D_FrameBegin(C3D_FRAME_SYNCDRAW);
 
         C2D_TargetClear(top, clrClear);
@@ -291,7 +296,7 @@ int main()
         C2D_SceneBegin(bottom);
         C3D_FrameDrawOn(bottom);
 
-        if (loaded == 1 || loaded == 2)
+        if (loaded == 1 || loaded == 2) // i think this is to control what the bottom screen shows. it can and will be heavily improved.
         {
             sceneRenderBottom();
         } else if (loaded == 0) {
