@@ -22,6 +22,7 @@ typedef enum
     StrId_Language,
     StrId_Tools,
     StrId_CustomChainload,
+    StrId_LowBattery,
     
     StrId_Max,
 } StrId;
