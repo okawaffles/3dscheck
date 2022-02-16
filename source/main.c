@@ -22,12 +22,12 @@
 int loaded = 0; // to select which test is running
 bool n3ds = false; // n3ds to be assigned, false by default
 u8 language = 0; // language to be assigned, JP by default
-u8 battery[16]; // battery level
+static u8 battery = 0; // battery level
 int pxx, pyy; // circle pad vars
 
 // text strings and buffers
 C2D_TextBuf mainTextBuf, timeBuf, buttonsBuf; 
-C2D_Text modesText[10], uiText[10], sysTime, buttons[14], enabled3D, ver;
+C2D_Text modesText[10], uiText[10], sysTime, buttons[14], enabled3D, ver, detailsView[16];
 static char timeString[9];
 
 // function to get from language.c/h
@@ -60,6 +60,7 @@ static void sceneInit()
     C2D_TextParse(&uiText[4], mainTextBuf, textGetString(StrId_Restart));
     C2D_TextParse(&uiText[5], mainTextBuf, textGetString(StrId_SysSettings));
     C2D_TextParse(&uiText[6], mainTextBuf, textGetString(StrId_LowBattery));
+    C2D_TextParse(&uiText[7], mainTextBuf, textGetString(StrId_DetailsView));
     C2D_TextParse(&enabled3D, mainTextBuf, textGetString(StrId_3DScreenCheck));
     C2D_TextParse(&ver, mainTextBuf, textGetString(StrId_Language));
 
@@ -79,23 +80,10 @@ static void sceneInit()
     C2D_TextOptimize(&uiText[6]);
     C2D_TextOptimize(&ver);
 
-    // parse and optimize the buttons, plan to improve this later...
-    C2D_TextParse(&buttons[0], buttonsBuf, "A");
-    C2D_TextParse(&buttons[1], buttonsBuf, "B");
-    C2D_TextParse(&buttons[2], buttonsBuf, "X");
-    C2D_TextParse(&buttons[3], buttonsBuf, "Y");
-    C2D_TextParse(&buttons[4], buttonsBuf, "DU");
-    C2D_TextParse(&buttons[5], buttonsBuf, "DD");
-    C2D_TextParse(&buttons[6], buttonsBuf, "DL");
-    C2D_TextParse(&buttons[7], buttonsBuf, "DR");
-    C2D_TextParse(&buttons[8], buttonsBuf, "L");
-    C2D_TextParse(&buttons[9], buttonsBuf, "R");
-    C2D_TextParse(&buttons[10], buttonsBuf, "SELECT");
-    C2D_TextParse(&buttons[11], buttonsBuf, "START");
-    C2D_TextParse(&buttons[12], buttonsBuf, "ZL");
-    C2D_TextParse(&buttons[13], buttonsBuf, "ZR");
-    for (size_t i = 0; i < 13; i++)
+    // parse and optimize the button strings
+    for (size_t i = 0; i < 14; i++)
     {
+        C2D_TextParse(&buttons[i], buttonsBuf, returnBtn(i));
         C2D_TextOptimize(&buttons[i]);
     }
 }
@@ -112,7 +100,7 @@ static void sceneExit(void)
 // render the common top screen elements
 static void sceneRenderTop()
 {
-    MCUHWC_GetBatteryLevel(battery); // get battery level
+    MCUHWC_GetBatteryLevel(&battery); // get battery level
     C2D_TextBufClear(timeBuf); // reset time buffer
 
     u64 timeInSeconds = osGetTime() / 1000;                    // --------------------------------- //
@@ -137,7 +125,7 @@ static void sceneRenderTop()
     m_useColor(0x37, 0x67, 0x70); // switch back to normal color regardless of battery
 
     if (battery <= 20) // show battery warning
-        C2D_DrawText(&sysTime, C2D_WithColor | C2D_AlignRight, 398, 2, 0, 0.5f, 0.5f, white);
+        C2D_DrawText(&uiText[6], C2D_WithColor | C2D_AlignRight, 398, 2, 0, 0.5f, 0.5f, white);
 
     C2D_TextParse(&sysTime, timeBuf, timeString); // draw time
     C2D_TextOptimize(&sysTime); 
@@ -304,29 +292,34 @@ int main() // main stuff, this is where it gets messy
             hidTouchRead(&tc);
             sceneRenderBottom();
             m_useColor(0x48, 0x54, 0x63);
-            m_rect(5, 5, 310, 30);
+            m_rect(5, 5, 315, 30);
+            m_rect(5, 35, 315, 60);
             u32 white = C2D_Color32(0xFF, 0xFF, 0xFF, 0xFF);
             C2D_DrawText(&uiText[3], C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 160, 23, 0, 0.5f, 0.5f, white);
-            if(touchWithin(tc.px, tc.py, 5, 5, 310, 30)) {
+            C2D_DrawText(&uiText[7], C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 160, 53, 0, 0.5f, 0.5f, white);
+            if(touchWithin(tc.px, tc.py, 5, 5, 315, 30)) {
                 loaded = 5;
+            }
+            if(touchWithin(tc.px, tc.py, 5, 35, 315, 60)) {
+                loaded = 7;
             }
         } else if (loaded == 5) {
             touchPosition tc;
             hidTouchRead(&tc);
             sceneRenderBottom();
             m_useColor(0x48, 0x54, 0x63);
-            m_rect(5, 55, 310, 80);
+            m_rect(5, 55, 315, 80);
             u32 white = C2D_Color32(0xFF, 0xFF, 0xFF, 0xFF);
             C2D_DrawText(&uiText[4], C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 160, 73, 0, 0.5f, 0.5f, white);
 
-            if(touchWithin(tc.px, tc.py, 5, 55, 310, 80)) {
+            if(touchWithin(tc.px, tc.py, 5, 55, 315, 80)) {
 			    APT_HardwareResetAsync(); //reboot
             }
 
-            m_rect(5, 85, 310, 110);
+            m_rect(5, 85, 315, 110);
             C2D_DrawText(&uiText[5], C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 160, 103, 0, 0.5f, 0.5f, white);
 
-            if(touchWithin(tc.px, tc.py, 5, 85, 310, 110)) {
+            if(touchWithin(tc.px, tc.py, 5, 85, 315, 110)) {
                 u8 region = 1;
                 CFGU_SecureInfoGetRegion(&region);
 
@@ -349,6 +342,20 @@ int main() // main stuff, this is where it gets messy
             {
                 touchPosLines(touch.px, touch.py);
             }
+        } else if (loaded == 7) {
+            sceneRenderBottom();
+            char dest[] = textGetString(StrId_IsNew3DS);
+
+            if (n3ds) {
+                strcat(dest,textGetString(StrId_Yes));
+                C2D_TextParse(&detailsView[0], mainTextBuf, &dest);
+            } else {
+                strcat(dest,textGetString(StrId_No));
+                C2D_TextParse(&detailsView[0], mainTextBuf, &dest);
+            }
+
+            C2D_TextOptimize(&detailsView[0]);
+            C2D_DrawText(&detailsView[0], C2D_WithColor, 5, 45, 0, 0.5f, 0.5f, white);
         } else {
             sceneRenderBottom();
         }

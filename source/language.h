@@ -23,8 +23,15 @@ typedef enum
     StrId_Tools,
     StrId_CustomChainload,
     StrId_LowBattery,
-    
+    StrId_DetailsView,
+    StrId_Yes,
+    StrId_No,
+    StrId_IsNew3DS,
+    StrId_Placeholder,
+
     StrId_Max,
 } StrId;
 
-extern const char* const g_strings[StrId_Max][16];
+extern const char* const g_strings[StrId_Max][32];
+
+char *returnBtn(int id);

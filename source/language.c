@@ -1,12 +1,13 @@
 #include "language.h"
 #include <string.h>
+#include <stdio.h>
 
 #define STR_JP(_str) [CFG_LANGUAGE_JP] = _str
 #define STR_EN(_str) [CFG_LANGUAGE_EN] = _str
 #define STR_FR(_str) [CFG_LANGUAGE_FR] = _str
 #define STR_ES(_str) [CFG_LANGUAGE_ES] = _str
 
-const char* const g_strings[StrId_Max][16] =
+const char* const g_strings[StrId_Max][32] =
 {
     [StrId_Buttons] =
     {
@@ -122,10 +123,10 @@ const char* const g_strings[StrId_Max][16] =
 
     [StrId_Language] =
     {
-        STR_EN("English"),
-        STR_JP("日本語"),
-        STR_FR("Français"),
-        STR_ES("Español"),
+        STR_EN("English (Official)"),
+        STR_JP("日本語 (公式)"),
+        STR_FR("Français (officieux)"),
+        STR_ES("Español (extraoficial)"),
     },
 
     [StrId_Tools] =
@@ -136,41 +137,55 @@ const char* const g_strings[StrId_Max][16] =
         STR_ES("Utilidades"),
     },
 
-    [StrId_CustomChainload] =
-    {
-        STR_EN("Custom Chainload"),
-        STR_JP("カスタムチェインロード"),
-        STR_FR("Chargeur personnalisé"),
-        STR_ES("Cargador de Personalizado"),
-    },
-
     [StrId_LowBattery] =
     {
-        STR_EN("! Low Battery !"),
-        STR_JP("! 低いバッテリー !"),
-        STR_FR("! Batterie faible !"),
-        STR_ES("! Batería baja !"),
+        STR_EN("Low Battery!"),
+        STR_JP("低いバッテリー!"),
+        STR_FR("Batterie faible!"),
+        STR_ES("Batería baja!"),
+    },
+
+    [StrId_DetailsView] =
+    {
+        STR_EN("View More Details"),
+        STR_JP("StrId_DetailsView_JP"),
+        STR_FR("StrId_DetailsView_FR"),
+        STR_ES("StrId_DetailsView_ES"),
+    },
+
+    [StrId_Yes] =
+    {
+        STR_EN("Yes"),
+        STR_JP("はい"),
+        STR_FR("Oui"),
+        STR_ES("Sí"),
+    },
+    [StrId_No] =
+    {
+        STR_EN("No"),
+        STR_JP("いいえ"),
+        STR_FR("Non"),
+        STR_ES("No"),
+    },
+
+    [StrId_IsNew3DS] =
+    {
+        STR_EN("Is New Model: "),
+        STR_JP("JP"),
+        STR_FR("FR"),
+        STR_ES("ES"),
+    },
+    [StrId_Placeholder] =
+    {
+        STR_EN("EN"),
+        STR_JP("JP"),
+        STR_FR("FR"),
+        STR_ES("ES"),
     },
 };
 
-/* const char buttons[14];
-buttons[0] = "A";
-buttons[1] = "B";
-buttons[2] = "X";
-buttons[3] = "Y";
-buttons[4] = "DU";
-buttons[5] = "DD";
-buttons[6] = "DL";
-buttons[7] = "DR";
-buttons[8] = "L";
-buttons[9] = "R";
-buttons[10] = "SELECT";
-buttons[11] = "START";
-buttons[12] = "ZL";
-buttons[13] = "ZR";*/
+char *returnBtn(int id) {
+    char *buttons[14] = { "A", "B", "X", "Y", "DU", "DD", "DL", "DR", "L", "R", "SELECT", "START", "ZL", "ZR" };
 
-/*const enum buttons[] = { 'A', 'B', 'X', 'Y', "DU", "DD", "DL", "DR", 'L', 'R', "SELECT", "START", "ZL", "ZR" };
-
-int returnBtn(int id) {
-    return(buttons[id]);
-}*/
+    return buttons[id];
+}
