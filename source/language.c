@@ -137,14 +137,6 @@ const char* const g_strings[StrId_Max][32] =
         STR_ES("Utilidades"),
     },
 
-    [StrId_LowBattery] =
-    {
-        STR_EN("Low Battery!"),
-        STR_JP("低いバッテリー!"),
-        STR_FR("Batterie faible!"),
-        STR_ES("Batería baja!"),
-    },
-
     [StrId_DetailsView] =
     {
         STR_EN("View More Details"),
@@ -179,14 +171,6 @@ const char* const g_strings[StrId_Max][32] =
     {
         STR_EN("No WiFi"),
         STR_JP("WiFiがありません"),
-        STR_FR("FR"),
-        STR_ES("ES"),
-    },
-
-    [StrId_Charging] =
-    {
-        STR_EN("Charging"),
-        STR_JP(""),
         STR_FR("FR"),
         STR_ES("ES"),
     },

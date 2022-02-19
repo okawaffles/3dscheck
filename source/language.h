@@ -22,13 +22,11 @@ typedef enum
     StrId_Language,
     StrId_Tools,
     StrId_CustomChainload,
-    StrId_LowBattery,
     StrId_DetailsView,
     StrId_Yes,
     StrId_No,
     StrId_NoWiFi,
     StrId_WiFi,
-    StrId_Charging,
 
     StrId_Max,
 } StrId;

@@ -22,7 +22,6 @@
 int loaded = 0; // to select which test is running
 bool n3ds = false; // n3ds to be assigned, false by default
 u8 language = 0; // language to be assigned, JP by default
-static u8 battery = 0; // battery level
 //static u32 wifiStat = 0;
 int pxx, pyy; // circle pad vars
 
@@ -63,7 +62,6 @@ static void sceneInit()
     C2D_TextParse(&uiText[3], mainTextBuf, textGetString(StrId_SysOpt));
     C2D_TextParse(&uiText[4], mainTextBuf, textGetString(StrId_Restart));
     C2D_TextParse(&uiText[5], mainTextBuf, textGetString(StrId_SysSettings));
-    C2D_TextParse(&uiText[6], mainTextBuf, textGetString(StrId_LowBattery));
     C2D_TextParse(&enabled3D, mainTextBuf, textGetString(StrId_3DScreenCheck));
     C2D_TextParse(&ver, mainTextBuf, textGetString(StrId_Language));
     printf("OK\n");
@@ -111,6 +109,7 @@ static void sceneExit(void)
 // render the common top screen elements
 static void sceneRenderTop()
 {
+    static u8 battery = 0; // battery level
     MCUHWC_GetBatteryLevel(&battery); // get battery level
     C2D_TextBufClear(timeBuf); // reset time buffer
 
@@ -123,31 +122,25 @@ static void sceneRenderTop()
 
     u32 white = C2D_Color32(0xFF, 0xFF, 0xFF, 0xFF); // draw main UI
 
-    if (battery <= 20) { // change color if battery is <20% 
-        m_useColor(0x7A, 0x00, 0x00); // warning color
-    } else {
-        m_useColor(0x37, 0x67, 0x70); // normal color
-    }
     adv_background(0x35, 0x3E, 0x4A);
+    m_useColor(0x22, 0x27, 0x2E);
+    m_rect(0, 0, 400, 23); // top bar shadow
+    m_useColor(0x37, 0x67, 0x70);
     m_rect(0, 0, 400, 20); // top bar
     C2D_DrawText(&uiText[0], C2D_WithColor, 2, 2, 0, 0.5f, 0.5f, white); // 3DSCheck string
     C2D_DrawText(&ver, C2D_WithColor | C2D_AlignRight | C2D_AtBaseline, 398, 238 , 0, 0.5f, 0.5f, white); // Language string
 
     m_useColor(0x37, 0x67, 0x70); // switch back to normal color regardless of battery
 
-    if (battery <= 20) { // show battery warning
-        C2D_DrawText(&uiText[6], C2D_WithColor | C2D_AlignRight, 398, 2, 0, 0.5f, 0.5f, white);
-    } else {
-        char btext[32];
-        sprintf(btext, "%d", battery);
+    char btext[32];
+    sprintf(btext, "%d", battery);
 
-        C2D_TextParse(&uiText[7], mainTextBuf, btext);
-        C2D_TextParse(&uiText[8], mainTextBuf, "\%");
-        C2D_TextOptimize(&uiText[7]);
-        C2D_TextOptimize(&uiText[8]);
-        C2D_DrawText(&uiText[7], C2D_WithColor | C2D_AlignRight, 385, 2, 0, 0.5f, 0.5f, white);
-        C2D_DrawText(&uiText[8], C2D_WithColor | C2D_AlignRight, 398, 2, 0, 0.5f, 0.5f, white);
-    }
+    C2D_TextParse(&uiText[7], mainTextBuf, btext);
+    C2D_TextParse(&uiText[8], mainTextBuf, "\%");
+    C2D_TextOptimize(&uiText[7]);
+    C2D_TextOptimize(&uiText[8]);
+    C2D_DrawText(&uiText[7], C2D_WithColor | C2D_AlignRight, 385, 2, 0, 0.5f, 0.5f, white);
+    C2D_DrawText(&uiText[8], C2D_WithColor | C2D_AlignRight, 398, 2, 0, 0.5f, 0.5f, white);
 
     C2D_TextParse(&sysTime, timeBuf, timeString); // draw time
     C2D_TextOptimize(&sysTime); 
@@ -156,6 +149,13 @@ static void sceneRenderTop()
     if (loaded == 0) // only draw test options if no option is loaded
     {
         // test options
+        m_useColor(0x22, 0x27, 0x2E); // shadows
+        m_rect(0, 30, 153, 58);
+        m_rect(0, 60, 153, 88);
+        m_rect(0, 90, 153, 118);
+        m_rect(0, 120, 153, 148);
+        m_rect(0, 210, 153, 238);
+        m_useColor(0x37, 0x67, 0x70);
         m_rect(0, 30, 150, 55);
         m_rect(0, 60, 150, 85);
         m_rect(0, 90, 150, 115);
@@ -167,6 +167,9 @@ static void sceneRenderTop()
         C2D_DrawText(&modesText[3], C2D_WithColor, 4, 214, 0, 0.5f, 0.5f, white);
         C2D_DrawText(&modesText[4], C2D_WithColor, 4, 124, 0, 0.5f, 0.5f, white);
         if (n3ds) { // show cStick option is n3ds is enabled.
+            m_useColor(0x22, 0x27, 0x2E);
+            m_rect(0, 150, 153, 178);
+            m_useColor(0x37, 0x67, 0x70);
             m_rect(0, 150, 150, 175);
             C2D_DrawText(&modesText[5], C2D_WithColor, 4, 154, 0, 0.5f, 0.5f, white);
         }
