@@ -26,8 +26,9 @@ typedef enum
     StrId_DetailsView,
     StrId_Yes,
     StrId_No,
-    StrId_IsNew3DS,
-    StrId_Placeholder,
+    StrId_NoWiFi,
+    StrId_WiFi,
+    StrId_Charging,
 
     StrId_Max,
 } StrId;

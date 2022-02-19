@@ -23,6 +23,7 @@ int loaded = 0; // to select which test is running
 bool n3ds = false; // n3ds to be assigned, false by default
 u8 language = 0; // language to be assigned, JP by default
 static u8 battery = 0; // battery level
+//static u32 wifiStat = 0;
 int pxx, pyy; // circle pad vars
 
 // text strings and buffers
@@ -42,11 +43,14 @@ const char* textGetString(StrId id)
 // initiaize scene
 static void sceneInit()
 {
+    printf("create buffers...");
     mainTextBuf = C2D_TextBufNew(4096); // create text buffers
     timeBuf = C2D_TextBufNew(4096);
     buttonsBuf = C2D_TextBufNew(4096);
+    printf("OK\n");
 
     // get text strings
+    printf("load language...");
     C2D_TextParse(&modesText[0], mainTextBuf, textGetString(StrId_Buttons));
     C2D_TextParse(&modesText[1], mainTextBuf, textGetString(StrId_Screen));
     C2D_TextParse(&modesText[2], mainTextBuf, textGetString(StrId_Touchscreen));
@@ -60,11 +64,12 @@ static void sceneInit()
     C2D_TextParse(&uiText[4], mainTextBuf, textGetString(StrId_Restart));
     C2D_TextParse(&uiText[5], mainTextBuf, textGetString(StrId_SysSettings));
     C2D_TextParse(&uiText[6], mainTextBuf, textGetString(StrId_LowBattery));
-    C2D_TextParse(&uiText[7], mainTextBuf, textGetString(StrId_DetailsView));
     C2D_TextParse(&enabled3D, mainTextBuf, textGetString(StrId_3DScreenCheck));
     C2D_TextParse(&ver, mainTextBuf, textGetString(StrId_Language));
+    printf("OK\n");
 
     // optimize text strings
+    printf("optimize ui text...");
     C2D_TextOptimize(&modesText[0]);
     C2D_TextOptimize(&modesText[1]);
     C2D_TextOptimize(&modesText[2]);
@@ -78,14 +83,20 @@ static void sceneInit()
     C2D_TextOptimize(&uiText[4]);
     C2D_TextOptimize(&uiText[5]);
     C2D_TextOptimize(&uiText[6]);
+    C2D_TextOptimize(&uiText[7]);
+    C2D_TextOptimize(&uiText[8]);
     C2D_TextOptimize(&ver);
+    printf("OK\n");
 
     // parse and optimize the button strings
+    printf("optimize button text...");
     for (size_t i = 0; i < 14; i++)
     {
         C2D_TextParse(&buttons[i], buttonsBuf, returnBtn(i));
         C2D_TextOptimize(&buttons[i]);
     }
+    printf("OK\n");
+    printf("all OK\n");
 }
 
 // runs when program is exiting
@@ -124,8 +135,19 @@ static void sceneRenderTop()
 
     m_useColor(0x37, 0x67, 0x70); // switch back to normal color regardless of battery
 
-    if (battery <= 20) // show battery warning
+    if (battery <= 20) { // show battery warning
         C2D_DrawText(&uiText[6], C2D_WithColor | C2D_AlignRight, 398, 2, 0, 0.5f, 0.5f, white);
+    } else {
+        char btext[32];
+        sprintf(btext, "%d", battery);
+
+        C2D_TextParse(&uiText[7], mainTextBuf, btext);
+        C2D_TextParse(&uiText[8], mainTextBuf, "\%");
+        C2D_TextOptimize(&uiText[7]);
+        C2D_TextOptimize(&uiText[8]);
+        C2D_DrawText(&uiText[7], C2D_WithColor | C2D_AlignRight, 385, 2, 0, 0.5f, 0.5f, white);
+        C2D_DrawText(&uiText[8], C2D_WithColor | C2D_AlignRight, 398, 2, 0, 0.5f, 0.5f, white);
+    }
 
     C2D_TextParse(&sysTime, timeBuf, timeString); // draw time
     C2D_TextOptimize(&sysTime); 
@@ -217,9 +239,13 @@ int main() // main stuff, this is where it gets messy
     CFGU_GetSystemLanguage(&language); // get system language (lol)
     APT_CheckNew3DS(&n3ds); // enable or disable n3ds features
 
-    //consoleInit(GFX_TOP, NULL);//  <-- used during non-univ releases 
-    //gfxExit();
-    //sleep(1);
+    gfxInitDefault();
+    consoleInit(GFX_TOP, NULL);
+    printf("loading...\n");
+    sleep(0.1f);
+    sceneInit();
+    sleep(0.5f);
+    gfxExit();
 
     gfxInitDefault();
     C3D_Init(C3D_DEFAULT_CMDBUF_SIZE);
@@ -231,7 +257,6 @@ int main() // main stuff, this is where it gets messy
     C3D_RenderTarget *top = C2D_CreateScreenTarget(GFX_TOP, GFX_LEFT);
     C3D_RenderTarget *top3D = C2D_CreateScreenTarget(GFX_TOP, GFX_RIGHT);
     C3D_RenderTarget *bottom = C2D_CreateScreenTarget(GFX_BOTTOM, GFX_LEFT);
-    sceneInit();
 
     while (aptMainLoop()) // loops forever (until quit[break])
     {
@@ -247,7 +272,7 @@ int main() // main stuff, this is where it gets messy
                 loaded = 1;
             if (kDown & KEY_L)
                 loaded = 4;
-            if (kDown & KEY_R)
+            if (kDown & KEY_R && n3ds)
                 loaded = 6;
             if (kDown & KEY_B) {
                 gfxSet3D(true);
@@ -293,15 +318,15 @@ int main() // main stuff, this is where it gets messy
             sceneRenderBottom();
             m_useColor(0x48, 0x54, 0x63);
             m_rect(5, 5, 315, 30);
-            m_rect(5, 35, 315, 60);
+            //m_rect(5, 35, 315, 60);
             u32 white = C2D_Color32(0xFF, 0xFF, 0xFF, 0xFF);
             C2D_DrawText(&uiText[3], C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 160, 23, 0, 0.5f, 0.5f, white);
-            C2D_DrawText(&uiText[7], C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 160, 53, 0, 0.5f, 0.5f, white);
+            //C2D_DrawText(&uiText[7], C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 160, 53, 0, 0.5f, 0.5f, white);
             if(touchWithin(tc.px, tc.py, 5, 5, 315, 30)) {
                 loaded = 5;
             }
             if(touchWithin(tc.px, tc.py, 5, 35, 315, 60)) {
-                loaded = 7;
+                //loaded = 7;
             }
         } else if (loaded == 5) {
             touchPosition tc;
@@ -344,7 +369,7 @@ int main() // main stuff, this is where it gets messy
             }
         } else if (loaded == 7) {
             sceneRenderBottom();
-            char dest[] = textGetString(StrId_IsNew3DS);
+            /*char dest[] = textGetString(StrId_IsNew3DS);
 
             if (n3ds) {
                 strcat(dest,textGetString(StrId_Yes));
@@ -355,7 +380,7 @@ int main() // main stuff, this is where it gets messy
             }
 
             C2D_TextOptimize(&detailsView[0]);
-            C2D_DrawText(&detailsView[0], C2D_WithColor, 5, 45, 0, 0.5f, 0.5f, white);
+            C2D_DrawText(&detailsView[0], C2D_WithColor, 5, 45, 0, 0.5f, 0.5f, white);*/
         } else {
             sceneRenderBottom();
         }

@@ -168,17 +168,25 @@ const char* const g_strings[StrId_Max][32] =
         STR_ES("No"),
     },
 
-    [StrId_IsNew3DS] =
+    [StrId_WiFi] =
     {
-        STR_EN("Is New Model: "),
-        STR_JP("JP"),
+        STR_EN("WiFi Connected"),
+        STR_JP("WiFiが付します"),
         STR_FR("FR"),
         STR_ES("ES"),
     },
-    [StrId_Placeholder] =
+    [StrId_NoWiFi] =
     {
-        STR_EN("EN"),
-        STR_JP("JP"),
+        STR_EN("No WiFi"),
+        STR_JP("WiFiがありません"),
+        STR_FR("FR"),
+        STR_ES("ES"),
+    },
+
+    [StrId_Charging] =
+    {
+        STR_EN("Charging"),
+        STR_JP(""),
         STR_FR("FR"),
         STR_ES("ES"),
     },
