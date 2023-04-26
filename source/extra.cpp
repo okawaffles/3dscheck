@@ -1,4 +1,4 @@
-#include "okalibs.h"
+#include "extra.h"
 #include <citro2d.h>
 int uc1 = 0xFF;
 int uc2 = 0xFF;

@@ -1,6 +1,6 @@
 #include <citro2d.h>
 #include <3ds.h>
-#include "okalibs.h"
+#include "extra.h"
 
 void checkButtons(bool n3ds)
 {

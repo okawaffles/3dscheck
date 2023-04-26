@@ -2,7 +2,7 @@
 #include <citro2d.h>
 #include <3ds.h>
 #include <unistd.h>
-#include "okalibs.h"
+#include "extra.h"
 // external functions
 #include "touchscreen.h"
 #include "buttons.h"
@@ -150,11 +150,11 @@ static void sceneRenderTop()
     {
         // test options
         m_useColor(0x22, 0x27, 0x2E); // shadows
-        m_rect(0, 30, 153, 58);
-        m_rect(0, 60, 153, 88);
-        m_rect(0, 90, 153, 118);
-        m_rect(0, 120, 153, 148);
-        m_rect(0, 210, 153, 238);
+        m_rect(0, 33, 153, 58);
+        m_rect(0, 63, 153, 88);
+        m_rect(0, 93, 153, 118);
+        m_rect(0, 123, 153, 148);
+        m_rect(0, 213, 153, 238);
         m_useColor(0x37, 0x67, 0x70);
         m_rect(0, 30, 150, 55);
         m_rect(0, 60, 150, 85);
@@ -168,7 +168,7 @@ static void sceneRenderTop()
         C2D_DrawText(&modesText[4], C2D_WithColor, 4, 124, 0, 0.5f, 0.5f, white);
         if (n3ds) { // show cStick option is n3ds is enabled.
             m_useColor(0x22, 0x27, 0x2E);
-            m_rect(0, 150, 153, 178);
+            m_rect(0, 153, 153, 178);
             m_useColor(0x37, 0x67, 0x70);
             m_rect(0, 150, 150, 175);
             C2D_DrawText(&modesText[5], C2D_WithColor, 4, 154, 0, 0.5f, 0.5f, white);
@@ -324,7 +324,10 @@ int main() // main stuff, this is where it gets messy
             //m_rect(5, 35, 315, 60);
             u32 white = C2D_Color32(0xFF, 0xFF, 0xFF, 0xFF);
             C2D_DrawText(&uiText[3], C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 160, 23, 0, 0.5f, 0.5f, white);
-            //C2D_DrawText(&uiText[7], C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 160, 53, 0, 0.5f, 0.5f, white);
+            
+            // Accessibility
+
+
             if(touchWithin(tc.px, tc.py, 5, 5, 315, 30)) {
                 loaded = 5;
             }

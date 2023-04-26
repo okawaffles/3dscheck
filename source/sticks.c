@@ -1,6 +1,6 @@
 #include <citro2d.h>
 #include <3ds.h>
-#include "okalibs.h"
+#include "extra.h"
 #include "main.h"
 
 void drawLStick(int posX, int posY) {
