@@ -3,6 +3,11 @@
 #include <3ds.h>
 #include <string.h>
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 typedef enum
 {
     StrId_Buttons,
@@ -34,3 +39,7 @@ typedef enum
 extern const char* const g_strings[StrId_Max][32];
 
 const char *returnBtn(int id);
+
+#ifdef __cplusplus
+}
+#endif
