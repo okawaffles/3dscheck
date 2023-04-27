@@ -55,20 +55,8 @@ static void sceneInit()
     // load text strings based on language. this is painful
     printf("load language...");
 
-    C2D_TextParse(&texts[0], mainTextBuf, textGetString(StrId_Buttons));
-    C2D_TextParse(&texts[1], mainTextBuf, textGetString(StrId_Screen));
-    C2D_TextParse(&texts[2], mainTextBuf, textGetString(StrId_Touchscreen));
-    C2D_TextParse(&texts[3], mainTextBuf, textGetString(StrId_Return));
-    C2D_TextParse(&texts[4], mainTextBuf, textGetString(StrId_Stick));
-    C2D_TextParse(&texts[5], mainTextBuf, textGetString(StrId_CStick));
-    C2D_TextParse(&texts[6], mainTextBuf, textGetString(StrId_3DSCheck));
-    C2D_TextParse(&texts[7], mainTextBuf, textGetString(StrId_Back));
-    C2D_TextParse(&texts[8], mainTextBuf, textGetString(StrId_StartBack));
-    C2D_TextParse(&texts[9], mainTextBuf, textGetString(StrId_SysOpt));
-    C2D_TextParse(&texts[10], mainTextBuf, textGetString(StrId_Restart));
-    C2D_TextParse(&texts[11], mainTextBuf, textGetString(StrId_SysSettings));
-    C2D_TextParse(&texts[12], mainTextBuf, textGetString(StrId_3DScreenCheck));
-    C2D_TextParse(&texts[13], mainTextBuf, textGetString(StrId_Language));
+    for (int i = 0; i < 13; i++)
+        C2D_TextParse(&texts[i], mainTextBuf, textGetString(langValuesList[i]));
 
     printf("OK\n");
 
@@ -123,7 +111,7 @@ static void sceneRenderTop()
     m_rect(0, 0, 400, 23); // top bar shadow
     m_useColor(0x37, 0x67, 0x70);
     m_rect(0, 0, 400, 20); // top bar
-    C2D_DrawText(&uiText[0], C2D_WithColor, 2, 2, 0, 0.5f, 0.5f, white); // 3DSCheck string
+    C2D_DrawText(&texts[6], C2D_WithColor, 2, 2, 0, 0.5f, 0.5f, white); // 3DSCheck string
     C2D_DrawText(&ver, C2D_WithColor | C2D_AlignRight | C2D_AtBaseline, 398, 238 , 0, 0.5f, 0.5f, white); // Language string
 
     m_useColor(0x37, 0x67, 0x70); // switch back to normal color regardless of battery
