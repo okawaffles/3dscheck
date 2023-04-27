@@ -171,8 +171,8 @@ static void sceneRenderTop()
         C2D_DrawText(&buttons[5], C2D_WithColor, 80, 132, 0, 0.5f, 0.5f, white);
         C2D_DrawText(&buttons[6], C2D_WithColor, 50, 112, 0, 0.5f, 0.5f, white);
         C2D_DrawText(&buttons[7], C2D_WithColor, 110, 112, 0, 0.5f, 0.5f, white);
-        C2D_DrawText(&buttons[10], C2D_WithColor, 245, 192, 0, 0.5f, 0.5f, white); // START/SELECT
-        C2D_DrawText(&buttons[11], C2D_WithColor, 105, 192, 0, 0.5f, 0.5f, white);
+        C2D_DrawText(&buttons[11], C2D_WithColor, 245, 192, 0, 0.5f, 0.5f, white); // START/SELECT
+        C2D_DrawText(&buttons[10], C2D_WithColor, 105, 192, 0, 0.5f, 0.5f, white);
         C2D_DrawText(&buttons[8], C2D_WithColor, 55, 52, 0, 0.5f, 0.5f, white); // L/R
         C2D_DrawText(&buttons[9], C2D_WithColor, 295, 52, 0, 0.5f, 0.5f, white);
         if (n3ds) { //enable zl/zr if n3ds is true
