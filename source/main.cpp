@@ -10,6 +10,7 @@
 #include "main.h"
 #include "sticks.h"
 #include "language.h"
+#include "mode.h"
 // define some extra stuff 
 #define SCREEN_WIDTH_TOP 400
 #define SCREEN_HEIGHT_TOP 240
@@ -19,7 +20,6 @@
 #define LANGUAGE_EN 1
 #define LANGUAGE_JP 0
 // variables
-int loaded = 0; // to select which test is running
 bool n3ds = false; // n3ds to be assigned, false by default
 u8 language = 0; // language to be assigned, JP by default
 //static u32 wifiStat = 0;
@@ -28,6 +28,10 @@ int pxx, pyy; // circle pad vars
 // text strings and buffers
 C2D_TextBuf mainTextBuf, timeBuf, buttonsBuf; 
 C2D_Text modesText[10], uiText[10], sysTime, buttons[14], enabled3D, ver, detailsView[16];
+
+// new buffer for everything but time cause why not
+C2D_Text texts[52];
+
 static char timeString[9];
 
 // function to get from language.c/h
@@ -48,42 +52,34 @@ static void sceneInit()
     buttonsBuf = C2D_TextBufNew(4096);
     printf("OK\n");
 
-    // get text strings
+    // load text strings based on language. this is painful
     printf("load language...");
-    C2D_TextParse(&modesText[0], mainTextBuf, textGetString(StrId_Buttons));
-    C2D_TextParse(&modesText[1], mainTextBuf, textGetString(StrId_Screen));
-    C2D_TextParse(&modesText[2], mainTextBuf, textGetString(StrId_Touchscreen));
-    C2D_TextParse(&modesText[3], mainTextBuf, textGetString(StrId_Return));
-    C2D_TextParse(&modesText[4], mainTextBuf, textGetString(StrId_Stick));
-    C2D_TextParse(&modesText[5], mainTextBuf, textGetString(StrId_CStick));
-    C2D_TextParse(&uiText[0], mainTextBuf, textGetString(StrId_3DSCheck));
-    C2D_TextParse(&uiText[1], mainTextBuf, textGetString(StrId_Back));
-    C2D_TextParse(&uiText[2], mainTextBuf, textGetString(StrId_StartBack));
-    C2D_TextParse(&uiText[3], mainTextBuf, textGetString(StrId_SysOpt));
-    C2D_TextParse(&uiText[4], mainTextBuf, textGetString(StrId_Restart));
-    C2D_TextParse(&uiText[5], mainTextBuf, textGetString(StrId_SysSettings));
-    C2D_TextParse(&enabled3D, mainTextBuf, textGetString(StrId_3DScreenCheck));
-    C2D_TextParse(&ver, mainTextBuf, textGetString(StrId_Language));
+
+    C2D_TextParse(&texts[0], mainTextBuf, textGetString(StrId_Buttons));
+    C2D_TextParse(&texts[1], mainTextBuf, textGetString(StrId_Screen));
+    C2D_TextParse(&texts[2], mainTextBuf, textGetString(StrId_Touchscreen));
+    C2D_TextParse(&texts[3], mainTextBuf, textGetString(StrId_Return));
+    C2D_TextParse(&texts[4], mainTextBuf, textGetString(StrId_Stick));
+    C2D_TextParse(&texts[5], mainTextBuf, textGetString(StrId_CStick));
+    C2D_TextParse(&texts[6], mainTextBuf, textGetString(StrId_3DSCheck));
+    C2D_TextParse(&texts[7], mainTextBuf, textGetString(StrId_Back));
+    C2D_TextParse(&texts[8], mainTextBuf, textGetString(StrId_StartBack));
+    C2D_TextParse(&texts[9], mainTextBuf, textGetString(StrId_SysOpt));
+    C2D_TextParse(&texts[10], mainTextBuf, textGetString(StrId_Restart));
+    C2D_TextParse(&texts[11], mainTextBuf, textGetString(StrId_SysSettings));
+    C2D_TextParse(&texts[12], mainTextBuf, textGetString(StrId_3DScreenCheck));
+    C2D_TextParse(&texts[13], mainTextBuf, textGetString(StrId_Language));
+
     printf("OK\n");
 
     // optimize text strings
     printf("optimize ui text...");
-    C2D_TextOptimize(&modesText[0]);
-    C2D_TextOptimize(&modesText[1]);
-    C2D_TextOptimize(&modesText[2]);
-    C2D_TextOptimize(&modesText[3]);
-    C2D_TextOptimize(&modesText[4]);
-    C2D_TextOptimize(&enabled3D);
-    C2D_TextOptimize(&uiText[0]);
-    C2D_TextOptimize(&uiText[1]);
-    C2D_TextOptimize(&uiText[2]);
-    C2D_TextOptimize(&uiText[3]);
-    C2D_TextOptimize(&uiText[4]);
-    C2D_TextOptimize(&uiText[5]);
-    C2D_TextOptimize(&uiText[6]);
-    C2D_TextOptimize(&uiText[7]);
-    C2D_TextOptimize(&uiText[8]);
-    C2D_TextOptimize(&ver);
+    
+    for (int i = 0; i < 50; i++)
+    {
+        C2D_TextOptimize(&texts[i]);
+    }
+
     printf("OK\n");
 
     // parse and optimize the button strings
@@ -135,18 +131,18 @@ static void sceneRenderTop()
     char btext[32];
     sprintf(btext, "%d", battery);
 
-    C2D_TextParse(&uiText[7], mainTextBuf, btext);
-    C2D_TextParse(&uiText[8], mainTextBuf, "\%");
-    C2D_TextOptimize(&uiText[7]);
-    C2D_TextOptimize(&uiText[8]);
-    C2D_DrawText(&uiText[7], C2D_WithColor | C2D_AlignRight, 385, 2, 0, 0.5f, 0.5f, white);
-    C2D_DrawText(&uiText[8], C2D_WithColor | C2D_AlignRight, 398, 2, 0, 0.5f, 0.5f, white);
+    C2D_TextParse(&texts[14], mainTextBuf, btext);
+    C2D_TextParse(&texts[15], mainTextBuf, "\%");
+    C2D_TextOptimize(&texts[14]);
+    C2D_TextOptimize(&texts[15]);
+    C2D_DrawText(&texts[14], C2D_WithColor | C2D_AlignRight, 385, 2, 0, 0.5f, 0.5f, white);
+    C2D_DrawText(&texts[15], C2D_WithColor | C2D_AlignRight, 398, 2, 0, 0.5f, 0.5f, white);
 
     C2D_TextParse(&sysTime, timeBuf, timeString); // draw time
     C2D_TextOptimize(&sysTime); 
     C2D_DrawText(&sysTime, C2D_WithColor | C2D_AlignCenter, 200, 2, 0, 0.5f, 0.5f, white);
 
-    if (loaded == 0) // only draw test options if no option is loaded
+    if (getMode() == 0) // only draw test options if no option is loaded
     {
         // test options
         m_useColor(0x22, 0x27, 0x2E); // shadows
@@ -161,23 +157,23 @@ static void sceneRenderTop()
         m_rect(0, 90, 150, 115);
         m_rect(0, 120, 150, 145);
         m_rect(0, 210, 150, 235);
-        C2D_DrawText(&modesText[0], C2D_WithColor, 4, 34, 0, 0.5f, 0.5f, white);
-        C2D_DrawText(&modesText[1], C2D_WithColor, 4, 64, 0, 0.5f, 0.5f, white);
-        C2D_DrawText(&modesText[2], C2D_WithColor, 4, 94, 0, 0.5f, 0.5f, white);
-        C2D_DrawText(&modesText[3], C2D_WithColor, 4, 214, 0, 0.5f, 0.5f, white);
-        C2D_DrawText(&modesText[4], C2D_WithColor, 4, 124, 0, 0.5f, 0.5f, white);
+        C2D_DrawText(&texts[0], C2D_WithColor, 4, 34, 0, 0.5f, 0.5f, white);
+        C2D_DrawText(&texts[1], C2D_WithColor, 4, 64, 0, 0.5f, 0.5f, white);
+        C2D_DrawText(&texts[2], C2D_WithColor, 4, 94, 0, 0.5f, 0.5f, white);
+        C2D_DrawText(&texts[3], C2D_WithColor, 4, 214, 0, 0.5f, 0.5f, white);
+        C2D_DrawText(&texts[4], C2D_WithColor, 4, 124, 0, 0.5f, 0.5f, white);
         if (n3ds) { // show cStick option is n3ds is enabled.
             m_useColor(0x22, 0x27, 0x2E);
             m_rect(0, 153, 153, 178);
             m_useColor(0x37, 0x67, 0x70);
             m_rect(0, 150, 150, 175);
-            C2D_DrawText(&modesText[5], C2D_WithColor, 4, 154, 0, 0.5f, 0.5f, white);
+            C2D_DrawText(&texts[5], C2D_WithColor, 4, 154, 0, 0.5f, 0.5f, white);
         }
     }
-    else if (loaded == 1) // buttons
+    else if (getMode() == 1) // buttons
     {
         checkButtons(n3ds);
-        C2D_DrawText(&uiText[2], C2D_WithColor | C2D_AtBaseline, 2, 236, 0, 0.6f, 0.6f, white); // show return text
+        C2D_DrawText(&texts[8], C2D_WithColor | C2D_AtBaseline, 2, 236, 0, 0.6f, 0.6f, white); // show return text
 
         C2D_DrawText(&buttons[0], C2D_WithColor, 330, 112, 0, 0.5f, 0.5f, white); // ABXY, DPAD-UDLR
         C2D_DrawText(&buttons[1], C2D_WithColor, 300, 132, 0, 0.5f, 0.5f, white);
@@ -196,27 +192,27 @@ static void sceneRenderTop()
             C2D_DrawText(&buttons[13], C2D_WithColor, 255, 52, 0, 0.5f, 0.5f, white);
         }
     }
-    else if (loaded == 2) // screen test
+    else if (getMode() == 2) // screen test
     {
         rgbsTop();
-        C2D_DrawText(&uiText[1], C2D_WithColor | C2D_AtBaseline, 2, 236, 0, 0.6f, 0.6f, white);
+        C2D_DrawText(&texts[7], C2D_WithColor | C2D_AtBaseline, 2, 236, 0, 0.6f, 0.6f, white);
         C2D_DrawText(&enabled3D, C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 202.5f, 120, 0, 1.0f, 1.0f, white);
-    } else if (loaded == 4) { // Circle pad test
+    } else if (getMode() == 4) { // Circle pad test
         drawLStick(pxx, pyy);
-        C2D_DrawText(&uiText[1], C2D_WithColor | C2D_AtBaseline, 2, 236, 0, 0.6f, 0.6f, white);
-    } else if (loaded == 6) { // C"Stick" test
+        C2D_DrawText(&texts[7], C2D_WithColor | C2D_AtBaseline, 2, 236, 0, 0.6f, 0.6f, white);
+    } else if (getMode() == 6) { // C"Stick" test
         drawCStick();
-        C2D_DrawText(&uiText[1], C2D_WithColor | C2D_AtBaseline, 2, 236, 0, 0.6f, 0.6f, white);
+        C2D_DrawText(&texts[7], C2D_WithColor | C2D_AtBaseline, 2, 236, 0, 0.6f, 0.6f, white);
     }
     else
     {   // not sure what this is tbh.
-        C2D_DrawText(&uiText[1], C2D_WithColor | C2D_AtBaseline, 2, 236, 0, 0.6f, 0.6f, white);
+        C2D_DrawText(&texts[7], C2D_WithColor | C2D_AtBaseline, 2, 236, 0, 0.6f, 0.6f, white);
     }
 }
 
 static void sceneRenderTop3D() { // for the screen test, only enabled when 3D is on
     u32 white = C2D_Color32(0xFF, 0xFF, 0xFF, 0xFF);
-    if (loaded == 2) {
+    if (getMode() == 2) {
         rgbsTop();
         C2D_DrawText(&enabled3D, C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 197.5f, 120, 0, 1.0f, 1.0f, white);
     }
@@ -226,7 +222,7 @@ static void sceneRenderBottom() // render common bottom screen elements
 {
     adv_background(0x35, 0x3E, 0x4A);
 
-    if (loaded == 2) // screen test
+    if (getMode() == 2) // screen test
     {
         rgbsBtm();
     }
@@ -267,27 +263,23 @@ int main() // main stuff, this is where it gets messy
         hidScanInput();
         u32 kDown = hidKeysDown();
         u32 kHeld = hidKeysHeld();
-        if (loaded == 0)
+        if (getMode() == 0)
         {
-            if (kDown & KEY_Y)
-                break;
-            if (kDown & KEY_A)
-                loaded = 1;
-            if (kDown & KEY_L)
-                loaded = 4;
-            if (kDown & KEY_R && n3ds)
-                loaded = 6;
-            if (kDown & KEY_B) {
+            if (kDown & KEY_Y) break; // return to hbl
+            if (kDown & KEY_A) setMode(1U); // buttons
+            if (kDown & KEY_X) setMode(3U); // touchscreen
+            if (kDown & KEY_L) setMode(4U); // stick
+            if (kDown & KEY_R && n3ds) setMode(6U); // c-stick
+            if (kDown & KEY_B) { // screen check
                 gfxSet3D(true);
-                loaded = 2;
+                setMode(2U);
             }
-            if (kDown & KEY_X)
-                loaded = 3;
         }
         else if (kDown & KEY_B)
         {
-                loaded = 0;
-                gfxSet3D(false);
+            // return to main menu
+            setMode(0U);
+            gfxSet3D(false);
         }
 
         touchPosition touch; // get touch pos
@@ -312,10 +304,10 @@ int main() // main stuff, this is where it gets messy
         C2D_SceneBegin(bottom);
         C3D_FrameDrawOn(bottom);
 
-        if (loaded == 1 || loaded == 2) // i think this is to control what the bottom screen shows. it can and will be heavily improved.
+        if (getMode() == 1 || getMode() == 2) // i think this is to control what the bottom screen shows. it can and will be heavily improved.
         {
             sceneRenderBottom();
-        } else if (loaded == 0) {
+        } else if (getMode() == 0) {
             touchPosition tc;
             hidTouchRead(&tc);
             sceneRenderBottom();
@@ -323,32 +315,32 @@ int main() // main stuff, this is where it gets messy
             m_rect(5, 5, 315, 30);
             //m_rect(5, 35, 315, 60);
             u32 white = C2D_Color32(0xFF, 0xFF, 0xFF, 0xFF);
-            C2D_DrawText(&uiText[3], C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 160, 23, 0, 0.5f, 0.5f, white);
+            C2D_DrawText(&texts[9], C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 160, 23, 0, 0.5f, 0.5f, white);
             
             // Accessibility
 
 
             if(touchWithin(tc.px, tc.py, 5, 5, 315, 30)) {
-                loaded = 5;
+                setMode(5U);
             }
             if(touchWithin(tc.px, tc.py, 5, 35, 315, 60)) {
                 //loaded = 7;
             }
-        } else if (loaded == 5) {
+        } else if (getMode() == 5) {
             touchPosition tc;
             hidTouchRead(&tc);
             sceneRenderBottom();
             m_useColor(0x48, 0x54, 0x63);
             m_rect(5, 55, 315, 80);
             u32 white = C2D_Color32(0xFF, 0xFF, 0xFF, 0xFF);
-            C2D_DrawText(&uiText[4], C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 160, 73, 0, 0.5f, 0.5f, white);
+            C2D_DrawText(&texts[9], C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 160, 73, 0, 0.5f, 0.5f, white);
 
             if(touchWithin(tc.px, tc.py, 5, 55, 315, 80)) {
 			    APT_HardwareResetAsync(); //reboot
             }
 
             m_rect(5, 85, 315, 110);
-            C2D_DrawText(&uiText[5], C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 160, 103, 0, 0.5f, 0.5f, white);
+            C2D_DrawText(&texts[10], C2D_WithColor | C2D_AtBaseline | C2D_AlignCenter, 160, 103, 0, 0.5f, 0.5f, white);
 
             if(touchWithin(tc.px, tc.py, 5, 85, 315, 110)) {
                 u8 region = 1;
@@ -363,17 +355,17 @@ int main() // main stuff, this is where it gets messy
                 }
                 break;
             }
-        } else if (loaded == 4) {
+        } else if (getMode() == 4) {
             sceneRenderBottom();
         }
-        else if (loaded == 3)
+        else if (getMode() == 3)
         {
             adv_background(0x00, 0x00, 0x00);
             if (kHeld & KEY_TOUCH)
             {
                 touchPosLines(touch.px, touch.py);
             }
-        } else if (loaded == 7) {
+        } else if (getMode() == 7) {
             sceneRenderBottom();
             /*char dest[] = textGetString(StrId_IsNew3DS);
 
@@ -394,8 +386,8 @@ int main() // main stuff, this is where it gets messy
         C3D_FrameEnd(0);
 
         u32 reKDown = hidKeysHeld();
-        if (reKDown & KEY_B && reKDown & KEY_START && loaded == 1)
-            loaded = 0;
+        if (reKDown & KEY_B && reKDown & KEY_START && getMode() == 1)
+            setMode(0U);
     }
     sceneExit();
 
@@ -411,5 +403,5 @@ int main() // main stuff, this is where it gets messy
 }
 
 void mainMenuSet() {
-    loaded = 0;
+    setMode(0U);
 }

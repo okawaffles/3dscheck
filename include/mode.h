@@ -6,7 +6,7 @@
  * @param submode Get the submode id instead of the mode id
  * @returns unsigned int mode/submode
 */
-unsigned int getMode(bool submode);
+unsigned int getMode(bool submode = false);
 
 /**
  * Set the current mode and submode (page and subpage) of the app.

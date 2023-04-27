@@ -45,7 +45,7 @@ const char* const g_strings[StrId_Max][32] =
     {
         STR_EN(" Stick"),
         STR_JP(" スライドパッド"),
-        STR_FR(" Bloc de cercle"),
+        STR_FR(" Pad circulaire"),
         STR_ES(" Botón deslizante"),
     },
 
@@ -53,7 +53,7 @@ const char* const g_strings[StrId_Max][32] =
     {
         STR_EN(" CStick"),
         STR_JP(" C パッド"),
-        STR_FR(" Bâton C"),
+        STR_FR(" Levier C"),
         STR_ES(" Palanca C"),
     },
 
