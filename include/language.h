@@ -33,4 +33,4 @@ typedef enum
 
 extern const char* const g_strings[StrId_Max][32];
 
-char *returnBtn(int id);
+const char *returnBtn(int id);

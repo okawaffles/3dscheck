@@ -176,8 +176,8 @@ const char* const g_strings[StrId_Max][32] =
     },
 };
 
-char *returnBtn(int id) {
-    char *buttons[14] = { "A", "B", "X", "Y", "DU", "DD", "DL", "DR", "L", "R", "SELECT", "START", "ZL", "ZR" };
+const char *returnBtn(int id) {
+    const char *buttons[14] = { "A", "B", "X", "Y", "DU", "DD", "DL", "DR", "L", "R", "SELECT", "START", "ZL", "ZR" };
 
     return buttons[id];
 }

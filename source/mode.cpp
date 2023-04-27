@@ -19,7 +19,7 @@ unsigned int getMode(bool submode)
 /**
  * Set the current mode and submode (page and subpage) of the app.
 */
-void setMode(unsigned int mode, unsigned int submode = 0)
+void setMode(unsigned int mode, unsigned int submode)
 {
     page = mode;
     subpage = subpage;
