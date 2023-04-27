@@ -2,7 +2,7 @@
 #include <3ds.h>
 #include "extra.h"
 
-void checkButtons(bool n3ds)
+void checkButtons(bool n3ds = false)
 {
     hidScanInput();
     u32 keys = hidKeysHeld();

@@ -6,4 +6,4 @@ PATH=$PATH:/opt/devkitpro/tools/bin # << VERY IMPORTANT FOR WINDOWS MSYS2, COMME
 3dslink -a 192.168.1.156 3DSCheck.3dsx # << Replace with your 3DS's IP.
 #3dslink -a 192.168.1.54 3DSCheck.3dsx
 #3dslink -a 192.168.1.48 3DSCheck.3dsx
-make clean
+#make clean
