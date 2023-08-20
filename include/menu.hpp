@@ -11,10 +11,11 @@ enum
     MAIN_MENU = 0,
     SCREEN_CHECK_3D = 1,
     SCREEN_CHECK_2D = 2,
-    BUTTONS_CHECK = 3,
-    SLIDEPAD_CHECK = 4,
-    SOUND_CHECK = 5,
-    SENSOR_CHECK = 6
+    TOUCHSCREEN_CHECK = 3,
+    BUTTONS_CHECK = 4,
+    SLIDEPAD_CHECK = 5,
+    SOUND_CHECK = 6,
+    SENSOR_CHECK = 7
 };
 
 // self explanatory functions

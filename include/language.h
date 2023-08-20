@@ -35,6 +35,8 @@ typedef enum
     StrId_Models_N3DSXL,
     StrId_Models_O2DS,
     StrId_Models_N2DSXL,
+    StrId_Touch_PosX,
+    StrId_Touch_PosY,
 
     // keep this in to let us quickly sum up the amount of strings.
     StrId_Max
@@ -56,6 +58,8 @@ const StrId langValuesList[64] = {
     StrId_Models_N3DSXL,
     StrId_Models_O2DS,
     StrId_Models_N2DSXL,
+    StrId_Touch_PosX,
+    StrId_Touch_PosY,
 };
 
 // buttons for button check

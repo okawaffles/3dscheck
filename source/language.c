@@ -63,6 +63,14 @@ const char* const g_strings[StrId_Max][64] =
         LANG_JP("NEW 2DS LL"),
         LANG_EN("NEW 2DS XL")
     },
+    [StrId_Touch_PosX] = {
+        LANG_JP("タッチポジションX: "),
+        LANG_EN("Touch Position X: ")
+    },
+    [StrId_Touch_PosY] = {
+        LANG_JP("タッチポジションY: "),
+        LANG_EN("Touch Position Y: ")
+    },
 };
 
 const char* returnBtn(int id)

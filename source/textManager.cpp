@@ -10,6 +10,7 @@ AppTextManager::AppTextManager(u8 systemLanguage)
     this->mainBuffer = C2D_TextBufNew(4096);
     this->timeBuffer = C2D_TextBufNew(4096);
     this->buttonsBuffer = C2D_TextBufNew(4096);
+    this->CRBuffer = C2D_TextBufNew(4096);
     this->language = systemLanguage;
 
     // get all texts into the buffers
@@ -54,4 +55,20 @@ void AppTextManager::DrawButton(unsigned int id, float x, float y, u32 flags, fl
 {
     // get the button and draw it
     C2D_DrawText(&this->buttonsText[id], flags, x, y, 0, scaleX, scaleY, color);
+}
+
+// clear the constant-refresh buffer
+void AppTextManager::RefreshCR()
+{
+    C2D_TextBufClear(this->CRBuffer);
+}
+
+void AppTextManager::ParseCR(const char *text)
+{
+    C2D_TextParse(&this->CRText, this->CRBuffer, text);
+}
+
+void AppTextManager::DrawCR(float x, float y, u32 flags, float scaleX, float scaleY, u32 color)
+{
+    C2D_DrawText(&this->CRText, flags, x, y, 0, scaleX, scaleY, color);
 }

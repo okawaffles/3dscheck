@@ -81,6 +81,7 @@ int main()
         if (FN == MAIN_MENU) DrawMenu(systemModel, &ATM);
         if (FN == SCREEN_CHECK_3D) DrawScreenCheckTop3D(systemModel, &ATM);
         if (FN == SCREEN_CHECK_2D) DrawScreenCheckTop2D(systemModel, &ATM);
+        if (FN == TOUCHSCREEN_CHECK) DrawTouchscreenCheckTop(systemLang, &ATM);
 
 
 #ifndef __DEBUGCONSOLE
@@ -90,9 +91,10 @@ int main()
         C2D_SceneBegin(bottom);
         C3D_FrameDrawOn(bottom);
 
-        // later, execute bottom drawing
+        // execute bottom drawing
         if (FN == MAIN_MENU) DrawMenuBottom(systemModel, &ATM);
         if (FN == SCREEN_CHECK_3D || FN == SCREEN_CHECK_2D) DrawScreenCheckBottom(&ATM);
+        if (FN == TOUCHSCREEN_CHECK) DrawTouchscreenCheckBottom();
 #endif
 
         // 3D screen is only needed for screen check
@@ -126,6 +128,7 @@ int main()
                 else 
                     SetCurrentFunction(SCREEN_CHECK_3D);
             }
+            if (ButtonPressed(KEY_B)) SetCurrentFunction(TOUCHSCREEN_CHECK);
 
             // scan controls for START to exit:
             if (ButtonPressed(KEY_START)) break;
