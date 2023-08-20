@@ -42,10 +42,10 @@ AppTextManager::~AppTextManager()
 
 // draw a text
 // 0.5f is default scaling.
-void AppTextManager::DrawText(StrId id, float x, float y, u32 flags, float scaleX, float scaleY, u32 color)
+void AppTextManager::DrawText(StrId id, float x, float y, float z, u32 flags, float scaleX, float scaleY, u32 color)
 {
     // draw string
-    C2D_DrawText(&this->mainText[id], flags, x, y, 0, scaleX, scaleY, color);
+    C2D_DrawText(&this->mainText[id], flags, x, y, z, scaleX, scaleY, color);
 }
 
 // button-specific function

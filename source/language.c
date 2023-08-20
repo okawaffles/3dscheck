@@ -23,6 +23,10 @@ const char* const g_strings[StrId_Max][64] =
         LANG_JP(" 画面 (3Dがある)"),
         LANG_EN(" Screen (with 3D)")
     },
+    [StrId_Screens_3DCheck] = {
+        LANG_JP(" 3Dテスト"),
+        LANG_EN(" 3D Test")
+    },
     [StrId_Buttons] = {
         LANG_JP(" ボタン"),
         LANG_EN(" Buttons")

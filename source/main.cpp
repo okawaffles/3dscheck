@@ -5,6 +5,7 @@
 #include "textManager.hpp"
 #include "graphics.hpp"
 #include "menu.hpp"
+#include "checks.hpp"
 
 // constants
 // screen size
@@ -12,7 +13,7 @@
 #define SCREEN_WIDTH_BOTTOM 320
 #define SCREEN_HEIGHT 240
 
-//#define __DEBUG
+#define __DEBUG
 
 // variables
 bool n3ds = false;
@@ -95,7 +96,8 @@ int main()
 
             // scan controls for the different functions
             // later, will add options for touching things on the bottom screen too
-            if (ButtonPressed(KEY_A)) {
+            if (ButtonPressed(KEY_A)) { // <---- TODO: not working!
+                printf("(main) set current function: SCREEN_CHECK");
                 // A is special because we will show two different strings based on the model of the device.
                 if ((systemModel == CFG_MODEL_2DS) || (systemModel == CFG_MODEL_N2DSXL))
                 {
