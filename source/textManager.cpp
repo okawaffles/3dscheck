@@ -39,6 +39,7 @@ AppTextManager::~AppTextManager()
     C2D_TextBufDelete(mainBuffer);
     C2D_TextBufDelete(timeBuffer);
     C2D_TextBufDelete(buttonsBuffer);
+    C2D_TextBufDelete(CRBuffer);
 }
 
 // draw a text
