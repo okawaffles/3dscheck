@@ -8,6 +8,8 @@
 extern u32 Colors_Clear;
 extern u32 Colors_White;
 extern u32 Colors_Black;
+extern u32 Colors_Red;
+extern u32 Colors_Green;
 extern u32 Colors_BackgroundPrimary;
 extern u32 Colors_BackgroundLighter;
 

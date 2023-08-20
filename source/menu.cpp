@@ -1,5 +1,5 @@
 #include "menu.hpp"
-
+#include <3ds.h>
 
 static unsigned int currentFunction = 0;
 
@@ -13,6 +13,7 @@ void SetCurrentFunction(unsigned int function)
     printf("set current function: %d\n", function);
 }
 
+bool gameCardInserted = false;
 
 // draw the main menu
 void DrawMenu(u8 model, AppTextManager *ATM)
@@ -82,4 +83,11 @@ void DrawMenuBottom(u8 model, AppTextManager *ATM)
     default:
         break;
     }
+
+    // check if a game card is inserted
+    FSUSER_CardSlotIsInserted(&gameCardInserted);
+    if (gameCardInserted)
+        ATM->DrawText(StrId_GameCard_In, 2, 225, 0, C2D_WithColor, 0.5f, 0.5f, Colors_Green);
+    else
+        ATM->DrawText(StrId_GameCard_None, 2, 225, 0, C2D_WithColor, 0.5f, 0.5f, Colors_Red);
 }

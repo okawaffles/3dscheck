@@ -71,6 +71,14 @@ const char* const g_strings[StrId_Max][64] =
         LANG_JP("タッチポジションY: "),
         LANG_EN("Touch Position Y: ")
     },
+    [StrId_GameCard_None] = {
+        LANG_JP("ゲームカードない"),
+        LANG_EN("No Game Card Detected")
+    },
+    [StrId_GameCard_In] = {
+        LANG_JP("ゲームカードがある"),
+        LANG_EN("Game Card Detected")
+    },
 };
 
 const char* returnBtn(int id)
