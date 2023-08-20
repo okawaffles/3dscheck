@@ -1,0 +1,27 @@
+name: Build
+
+on:
+  push:
+    branches: [ "main", "rewrite" ]
+  pull_request:
+    branches: [ "main", "rewrite" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    # i had no clue how to go about this so i'm having chatgpt write this for me lol...
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up devkitPro
+        run: |
+          git clone --recursive https://github.com/devkitPro/pacman.git $DEVKITPRO/pacman
+          cd $DEVKITPRO/pacman
+          makepkg -si --noconfirm
+
+      - name: Build Project
+        run: |
+          make  # hopefully this just works?
