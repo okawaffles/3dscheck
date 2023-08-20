@@ -11,16 +11,16 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    # i had no clue how to go about this so i'm having chatgpt write this for me lol...
+    # time to try myself
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
       - name: Set up devkitPro
         run: |
-          git clone --recursive https://github.com/devkitPro/pacman.git $HOME/devkitPro/pacman
-          cd $HOME/devkitPro/pacman
-          makepkg -si --noconfirm
+          wget https://apt.devkitpro.org/install-devkitpro-pacman
+          chmod +x ./install-devkitpro-pacman
+          sudo ./install-devkitpro-pacman
 
       - name: Build Project
         run: |
