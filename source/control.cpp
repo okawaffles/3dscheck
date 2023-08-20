@@ -1,16 +1,22 @@
 #include "control.hpp"
 #include <3ds.h>
 
-bool ButtonPressed(u32 keyBit)
+u32 kDown;
+u32 kHeld;
+
+void UpdateButtons()
 {
     hidScanInput();
-    u32 kDown = hidKeysDown();
+    kDown = hidKeysDown();
+    kHeld = hidKeysHeld();
+}
+
+bool ButtonPressed(u32 keyBit)
+{
     return (kDown & keyBit);
 }
 
 bool ButtonHeld(u32 keyBit)
 {
-    hidScanInput();
-    u32 kHeld = hidKeysDown();
     return (kHeld & keyBit);
 }

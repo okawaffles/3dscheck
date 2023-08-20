@@ -10,6 +10,7 @@ unsigned int GetCurrentFunction()
 void SetCurrentFunction(unsigned int function)
 {
     currentFunction = function;
+    printf("set current function: %d\n", function);
 }
 
 
@@ -51,5 +52,34 @@ void DrawMenu(u8 model, AppTextManager *ATM)
         default:
             break;
         }
+    }
+}
+
+
+void DrawMenuBottom(u8 model, AppTextManager *ATM)
+{
+    switch (model)
+    {
+    case CFG_MODEL_2DS:
+        ATM->DrawText(StrId_Models_O2DS, 2, 2);
+        break;
+    case CFG_MODEL_3DS:
+        ATM->DrawText(StrId_Models_O3DS, 2, 2);
+        break;
+    case CFG_MODEL_3DSXL:
+        ATM->DrawText(StrId_Models_O3DSXL, 2, 2);
+        break;
+    case CFG_MODEL_N3DS:
+        ATM->DrawText(StrId_Models_N3DS, 2, 2);
+        break;
+    case CFG_MODEL_N3DSXL:
+        ATM->DrawText(StrId_Models_N3DSXL, 2, 2);
+        break;
+    case CFG_MODEL_N2DSXL:
+        ATM->DrawText(StrId_Models_N2DSXL, 2, 2);
+        break;
+    
+    default:
+        break;
     }
 }

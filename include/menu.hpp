@@ -23,3 +23,4 @@ void SetCurrentFunction(unsigned int function);
 
 // function to draw the main menu
 void DrawMenu(u8 model, AppTextManager *ATM);
+void DrawMenuBottom(u8 model, AppTextManager *ATM);

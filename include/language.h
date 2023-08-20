@@ -29,8 +29,14 @@ typedef enum
     StrId_Buttons,
     StrId_Touchscreen,
     StrId_SlidePad,
+    StrId_Models_O3DS,
+    StrId_Models_N3DS,
+    StrId_Models_O3DSXL,
+    StrId_Models_N3DSXL,
+    StrId_Models_O2DS,
+    StrId_Models_N2DSXL,
 
-    // keep this in for some reason, i dont remember how this works, i just know it does.
+    // keep this in to let us quickly sum up the amount of strings.
     StrId_Max
 } StrId;
 
@@ -44,6 +50,12 @@ const StrId langValuesList[64] = {
     StrId_Buttons,
     StrId_Touchscreen,
     StrId_SlidePad,
+    StrId_Models_O3DS,
+    StrId_Models_N3DS,
+    StrId_Models_O3DSXL,
+    StrId_Models_N3DSXL,
+    StrId_Models_O2DS,
+    StrId_Models_N2DSXL,
 };
 
 // buttons for button check

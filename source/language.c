@@ -24,8 +24,8 @@ const char* const g_strings[StrId_Max][64] =
         LANG_EN(" Screen (with 3D)")
     },
     [StrId_Screens_3DCheck] = {
-        LANG_JP(" 3Dテスト"),
-        LANG_EN(" 3D Test")
+        LANG_JP("3Dボリュームをアップ動かすで3Dつけます、\nまたは/を押しでこのメッセージをかくした。"),
+        LANG_EN("Move the 3D Slider up to enable 3D, \nor press / to hide this message.")
     },
     [StrId_Buttons] = {
         LANG_JP(" ボタン"),
@@ -38,6 +38,30 @@ const char* const g_strings[StrId_Max][64] =
     [StrId_SlidePad] = {
         LANG_JP(" スライドパッド"),
         LANG_EN(" Circle Pad")
+    },
+    [StrId_Models_O3DS] = {
+        LANG_JP("3DS"),
+        LANG_EN("3DS")
+    },
+    [StrId_Models_N3DS] = {
+        LANG_JP("NEW 3DS"),
+        LANG_EN("NEW 3DS")
+    },
+    [StrId_Models_O3DSXL] = {
+        LANG_JP("3DS LL"),
+        LANG_EN("3DS XL")
+    },
+    [StrId_Models_N3DSXL] = {
+        LANG_JP("NEW 3DS LL"),
+        LANG_EN("NEW 3DS XL")
+    },
+    [StrId_Models_O2DS] = {
+        LANG_JP("2DS"),
+        LANG_EN("2DS")
+    },
+    [StrId_Models_N2DSXL] = {
+        LANG_JP("NEW 2DS LL"),
+        LANG_EN("NEW 2DS XL")
     },
 };
 

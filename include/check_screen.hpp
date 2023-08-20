@@ -6,5 +6,7 @@
 #include "graphics.hpp"
 #include "language.h"
 
-void DrawScreenCheckTop(u8 model, AppTextManager *ATM);
+void DrawScreenCheckTop3D(u8 model, AppTextManager *ATM);
+void DrawScreenCheckTop3DRight(AppTextManager *ATM);
+void DrawScreenCheckTop2D(u8 model, AppTextManager *ATM);
 void DrawScreenCheckBottom(AppTextManager *ATM);

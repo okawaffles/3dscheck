@@ -13,7 +13,8 @@
 #define SCREEN_WIDTH_BOTTOM 320
 #define SCREEN_HEIGHT 240
 
-#define __DEBUG
+//#define __DEBUG
+//#define __DEBUGCONSOLE
 
 // variables
 bool n3ds = false;
@@ -38,15 +39,21 @@ int main()
     C3D_Init(C3D_DEFAULT_CMDBUF_SIZE); // 3D graphics
     C2D_Init(C2D_DEFAULT_MAX_OBJECTS); // 2D graphics
     C2D_Prepare();
-#ifdef __DEBUG
+#ifdef __DEBUGCONSOLE
     consoleInit(GFX_BOTTOM, NULL);
     printf("Console init'd bottom.\n");
 #endif
 
     // load resources
     printf("(main) load resources\n");
+#ifndef __DEBUG
     CFGU_GetSystemLanguage(&systemLang);
     CFGU_GetSystemModel(&systemModel);
+#else
+    systemLang = CFG_LANGUAGE_EN;
+    systemModel = CFG_MODEL_N2DSXL;
+#endif
+
     AppTextManager ATM(systemLang);
 
     // runs forever, break when we want to exit.
@@ -72,9 +79,11 @@ int main()
         // draw respective things
         unsigned int FN = GetCurrentFunction();
         if (FN == MAIN_MENU) DrawMenu(systemModel, &ATM);
+        if (FN == SCREEN_CHECK_3D) DrawScreenCheckTop3D(systemModel, &ATM);
+        if (FN == SCREEN_CHECK_2D) DrawScreenCheckTop2D(systemModel, &ATM);
 
 
-#ifndef __DEBUG
+#ifndef __DEBUGCONSOLE
         /* BOTTOM SCREEN */
         // clear screen
         C2D_TargetClear(bottom, Colors_BackgroundPrimary);
@@ -82,29 +91,48 @@ int main()
         C3D_FrameDrawOn(bottom);
 
         // later, execute bottom drawing
+        if (FN == MAIN_MENU) DrawMenuBottom(systemModel, &ATM);
+        if (FN == SCREEN_CHECK_3D || FN == SCREEN_CHECK_2D) DrawScreenCheckBottom(&ATM);
 #endif
 
-        // done drawing
+        // 3D screen is only needed for screen check
+        if (FN == SCREEN_CHECK_3D)
+        {
+            gfxSet3D(true);
+
+            C2D_TargetClear(top3D, Colors_White);
+            C2D_SceneBegin(top3D);
+            C3D_FrameDrawOn(top3D);
+            
+            DrawScreenCheckTop3DRight(&ATM);
+        } else gfxSet3D(false);
+
+
+        // done drawing //
         C3D_FrameEnd(0);
 
 
         // buttons on the menu!
-        if (GetCurrentFunction() == MAIN_MENU)
+        UpdateButtons();
+        if (FN == MAIN_MENU)
         {
-            // scan controls for START to exit:
-            if (ButtonPressed(KEY_START)) break;
-
             // scan controls for the different functions
             // later, will add options for touching things on the bottom screen too
-            if (ButtonPressed(KEY_A)) { // <---- TODO: not working!
-                printf("(main) set current function: SCREEN_CHECK");
+            if (ButtonPressed(KEY_A)) 
+            {
                 // A is special because we will show two different strings based on the model of the device.
                 if ((systemModel == CFG_MODEL_2DS) || (systemModel == CFG_MODEL_N2DSXL))
-                {
                     SetCurrentFunction(SCREEN_CHECK_2D);
-                }
-                else SetCurrentFunction(SCREEN_CHECK_3D);
+                else 
+                    SetCurrentFunction(SCREEN_CHECK_3D);
             }
+
+            // scan controls for START to exit:
+            if (ButtonPressed(KEY_START)) break;
+        }
+        else if (ButtonPressed(KEY_B) && FN != BUTTONS_CHECK) // this will manage returning to the menu; we don't want this to run on buttons check though
+        {
+            SetCurrentFunction(MAIN_MENU);
         }
 
 #ifdef __DEBUG
