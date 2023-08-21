@@ -8,6 +8,7 @@
 // controls which function is shown
 enum
 {
+    APP_EXIT = 100,
     MAIN_MENU = 0,
     SCREEN_CHECK_3D = 1,
     SCREEN_CHECK_2D = 2,

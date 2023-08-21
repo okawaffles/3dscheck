@@ -29,6 +29,7 @@ int main()
     aptInit(); // used for opening system settings
     hidInit(); // used for HID
     mcuHwcInit(); // used for battery
+    amInit(); // used for game card stuff
 
     // link to 3dslink host
     //link3dsConnectToHost(true, true);
@@ -116,7 +117,7 @@ int main()
 
         // buttons on the menu!
         UpdateButtons();
-        if (FN == MAIN_MENU)
+        if (FN == MAIN_MENU || FN == APP_EXIT)
         {
             // scan controls for the different functions
             // later, will add options for touching things on the bottom screen too
@@ -131,7 +132,7 @@ int main()
             if (ButtonPressed(KEY_B)) SetCurrentFunction(TOUCHSCREEN_CHECK);
 
             // scan controls for START to exit:
-            if (ButtonPressed(KEY_START)) break;
+            if (ButtonPressed(KEY_START) || FN == APP_EXIT) break;
         }
         else if (ButtonPressed(KEY_B) && FN != BUTTONS_CHECK) // this will manage returning to the menu; we don't want this to run on buttons check though
         {
@@ -148,6 +149,7 @@ int main()
     hidExit(); // Deinitialize the HID module
     aptExit();
     srvExit();
+    amExit();
     mcuHwcExit();
 
     C2D_Fini();

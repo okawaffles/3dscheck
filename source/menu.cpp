@@ -1,5 +1,8 @@
 #include "menu.hpp"
+#include <iostream>
+#include <sstream>
 #include <3ds.h>
+#include "control.hpp"
 
 static unsigned int currentFunction = 0;
 
@@ -87,7 +90,35 @@ void DrawMenuBottom(u8 model, AppTextManager *ATM)
     // check if a game card is inserted
     FSUSER_CardSlotIsInserted(&gameCardInserted);
     if (gameCardInserted)
-        ATM->DrawText(StrId_GameCard_In, 2, 225, 0, C2D_WithColor, 0.5f, 0.5f, Colors_Green);
+    {        
+        // get title ID
+        u32 count = 1;
+        u64 titleId;
+        AM_TitleEntry t;
+        u64 titleName;
+        u32 titlesread;
+        AM_GetTitleList(&titlesread, MEDIATYPE_GAME_CARD, count, &titleId);
+
+        // get title name
+        AM_GetTitleInfo(MEDIATYPE_GAME_CARD, count, &titleId, &t);
+
+        std::stringstream s;
+        s << titleName << "(0x" << std::hex << titleId << ")";
+        
+        ATM->RefreshCR();
+        ATM->ParseCR(s.str().c_str());
+        ATM->DrawCR(2, 225, C2D_WithColor, 0.5f, 0.5f, Colors_Green);
+
+        //ATM->DrawText(StrId_GameCard_In, 2, 225, 0, C2D_WithColor, 0.5f, 0.5f, Colors_Green);
+        
+        // option to launch gamecard
+        UpdateTouch();
+        if (TouchIsWithin(0, 222, 100, 240))
+        {
+            aptSetChainloader(titleId, MEDIATYPE_GAME_CARD);
+            SetCurrentFunction(APP_EXIT);
+        }
+    }
     else
         ATM->DrawText(StrId_GameCard_None, 2, 225, 0, C2D_WithColor, 0.5f, 0.5f, Colors_Red);
 }
