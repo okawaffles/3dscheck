@@ -149,7 +149,7 @@ void DrawMenuBottom(u8 model, AppTextManager *ATM)
     CFGI_SecureInfoGetSerialNumber(serialNumber);
 
     int i = 0;
-    while (serialNumber[i - 1] != 0x00 || i == 0) {
+    while (serialNumber[i] != 0x00) {
         fullsn << serialNumber[i]; 
         i++;
     }
