@@ -13,7 +13,7 @@
 #define SCREEN_WIDTH_BOTTOM 320
 #define SCREEN_HEIGHT 240
 
-//#define __DEBUG
+#define __DEBUG
 //#define __DEBUGCONSOLE
 
 // variables
@@ -51,8 +51,8 @@ int main()
     CFGU_GetSystemLanguage(&systemLang);
     CFGU_GetSystemModel(&systemModel);
 #else
-    systemLang = CFG_LANGUAGE_EN;
-    systemModel = CFG_MODEL_N2DSXL;
+    systemLang = CFG_LANGUAGE_JP;
+    systemModel = CFG_MODEL_N3DSXL;
 #endif
 
     AppTextManager ATM(systemLang);

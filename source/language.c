@@ -71,13 +71,29 @@ const char* const g_strings[StrId_Max][64] =
         LANG_JP("タッチポジションY: "),
         LANG_EN("Touch Position Y: ")
     },
+    [StrId_GameCard_Prefix] = {
+        LANG_JP("ゲームカードOK "),
+        LANG_EN("Game Card OK ")
+    },
     [StrId_GameCard_None] = {
         LANG_JP("ゲームカードない"),
         LANG_EN("No Game Card Detected")
     },
     [StrId_GameCard_In] = {
-        LANG_JP("ゲームカードがある"),
-        LANG_EN("Game Card Detected")
+        LANG_JP("ゲームカードがある (NDS)"),
+        LANG_EN("Game Card Detected (NDS)")
+    },
+    [StrId_SerialNumber] = {
+        LANG_JP("シリアルナンバー: "),
+        LANG_EN("Serial Number: ")
+    },
+    [StrId_Battery] = {
+        LANG_JP("バッテリー: "),
+        LANG_EN("Battery: ")
+    },
+    [StrId_Temperature] = {
+        LANG_JP("本会の温度: "),
+        LANG_EN("Temperature: ")
     },
 };
 

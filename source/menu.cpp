@@ -17,6 +17,9 @@ void SetCurrentFunction(unsigned int function)
 }
 
 bool gameCardInserted = false;
+u8 batteryLevel = 0x0;
+u8 temperature = 0x0;
+u8 serialNumber = 0x0;
 
 // draw the main menu
 void DrawMenu(u8 model, AppTextManager *ATM)
@@ -90,26 +93,29 @@ void DrawMenuBottom(u8 model, AppTextManager *ATM)
     // check if a game card is inserted
     FSUSER_CardSlotIsInserted(&gameCardInserted);
     if (gameCardInserted)
-    {        
+    {       
         // get title ID
         u32 count = 1;
         u64 titleId;
-        AM_TitleEntry t;
-        u64 titleName;
         u32 titlesread;
         AM_GetTitleList(&titlesread, MEDIATYPE_GAME_CARD, count, &titleId);
+        
 
-        // get title name
-        AM_GetTitleInfo(MEDIATYPE_GAME_CARD, count, &titleId, &t);
+        // check if it's an NDS cart
+        if (titleId < 0xFFF)
+        {
+            // not bothering to support NDS carts ATM. do that stuff later!
+            ATM->DrawText(StrId_GameCard_In, 2, 225, 0, C2D_WithColor, 0.5f, 0.5f, Colors_Green);
+            return;
+        }
+
 
         std::stringstream s;
-        s << titleName << "(0x" << std::hex << titleId << ")";
+        s << textGetString(StrId_GameCard_Prefix, ATM->language) << "(0x" << std::hex << titleId << ")";
         
         ATM->RefreshCR();
         ATM->ParseCR(s.str().c_str());
         ATM->DrawCR(2, 225, C2D_WithColor, 0.5f, 0.5f, Colors_Green);
-
-        //ATM->DrawText(StrId_GameCard_In, 2, 225, 0, C2D_WithColor, 0.5f, 0.5f, Colors_Green);
         
         // option to launch gamecard
         UpdateTouch();
@@ -121,4 +127,16 @@ void DrawMenuBottom(u8 model, AppTextManager *ATM)
     }
     else
         ATM->DrawText(StrId_GameCard_None, 2, 225, 0, C2D_WithColor, 0.5f, 0.5f, Colors_Red);
+
+
+    // get+draw serial number, battery, and temperature
+    MCUHWC_GetBatteryLevel(&batteryLevel);
+    std::stringstream bl;
+    bl << textGetString(StrId_Battery, ATM->language) << std::to_string(batteryLevel) << "%";
+    // use constant-refresh buffer so i dont KILL THE 3DS!!!
+    ATM->RefreshCR();
+    ATM->ParseCR(bl.str().c_str());
+    ATM->DrawCR(2, 205, C2D_WithColor, 0.5f, 0.5f, Colors_White);
+
+    
 }
