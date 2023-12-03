@@ -4,6 +4,8 @@
 #include <3ds.h>
 #include "control.hpp"
 
+// #define __DEBUG
+
 static unsigned int currentFunction = 0;
 
 unsigned int GetCurrentFunction()
@@ -19,7 +21,7 @@ void SetCurrentFunction(unsigned int function)
 bool gameCardInserted = false;
 u8 batteryLevel = 0x0;
 u8 temperature = 0x0;
-u8 serialNumber = 0x0;
+u8 serialNumber[0xF];
 
 // draw the main menu
 void DrawMenu(u8 model, AppTextManager *ATM)
@@ -133,10 +135,31 @@ void DrawMenuBottom(u8 model, AppTextManager *ATM)
     MCUHWC_GetBatteryLevel(&batteryLevel);
     std::stringstream bl;
     bl << textGetString(StrId_Battery, ATM->language) << std::to_string(batteryLevel) << "%";
+#ifdef __DEBUG
+    bl << "(addr: " << static_cast<void*>(&batteryLevel) << ")"; // 53% = 0x355157???
+#endif
     // use constant-refresh buffer so i dont KILL THE 3DS!!!
     ATM->RefreshCR();
     ATM->ParseCR(bl.str().c_str());
     ATM->DrawCR(2, 205, C2D_WithColor, 0.5f, 0.5f, Colors_White);
 
-    
+    // serial number time
+    std::stringstream fullsn;
+
+    CFGI_SecureInfoGetSerialNumber(serialNumber);
+
+    int i = 0;
+    while (serialNumber[i - 1] != 0x00 || i == 0) {
+        fullsn << serialNumber[i]; 
+        i++;
+    }
+
+    std::stringstream sn;
+    sn << textGetString(StrId_SerialNumber, ATM->language) << fullsn.str();
+#ifdef __DEBUG
+    sn << "(addr: " << static_cast<void*>(&serialNumber) << ")";
+#endif
+    ATM->RefreshCR();
+    ATM->ParseCR(sn.str().c_str());
+    ATM->DrawCR(2, 185, C2D_WithColor, 0.5f, 0.5f, Colors_White);
 }
