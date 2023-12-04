@@ -13,7 +13,7 @@
 #define SCREEN_WIDTH_BOTTOM 320
 #define SCREEN_HEIGHT 240
 
-#define __DEBUG
+//#define __DEBUG
 //#define __DEBUGCONSOLE
 
 // variables

@@ -43,6 +43,7 @@ typedef enum
     StrId_SerialNumber,
     StrId_Battery,
     StrId_Temperature,
+    StrId_SoundTest,
 
     // keep this in to let us quickly sum up the amount of strings.
     StrId_Max
@@ -72,6 +73,7 @@ const StrId langValuesList[64] = {
     StrId_SerialNumber,
     StrId_Battery,
     StrId_Temperature,
+    StrId_SoundTest,
 };
 
 // buttons for button check

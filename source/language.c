@@ -92,9 +92,13 @@ const char* const g_strings[StrId_Max][64] =
         LANG_EN("Battery: ")
     },
     [StrId_Temperature] = {
-        LANG_JP("本会の温度: "),
+        LANG_JP("バッテリーの温度: "),
         LANG_EN("Temperature: ")
     },
+    [StrId_SoundTest] = {
+        LANG_JP("スピーカーテスト"),
+        LANG_EN("Sound Test")
+    }
 };
 
 const char* returnBtn(int id)

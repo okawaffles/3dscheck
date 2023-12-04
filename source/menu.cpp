@@ -19,9 +19,11 @@ void SetCurrentFunction(unsigned int function)
 }
 
 bool gameCardInserted = false;
-u8 batteryLevel = 0x0;
-u8 temperature = 0x0;
+bool hasGottenSerial = false;
+u8 batteryLevel;
+u8 temperature;
 u8 serialNumber[0xF];
+std::stringstream sn;
 
 // draw the main menu
 void DrawMenu(u8 model, AppTextManager *ATM)
@@ -104,13 +106,13 @@ void DrawMenuBottom(u8 model, AppTextManager *ATM)
         
 
         // check if it's an NDS cart
+        // this USED to work but it no longer does?
         if (titleId < 0xFFF)
         {
             // not bothering to support NDS carts ATM. do that stuff later!
             ATM->DrawText(StrId_GameCard_In, 2, 225, 0, C2D_WithColor, 0.5f, 0.5f, Colors_Green);
             return;
         }
-
 
         std::stringstream s;
         s << textGetString(StrId_GameCard_Prefix, ATM->language) << "(0x" << std::hex << titleId << ")";
@@ -131,35 +133,44 @@ void DrawMenuBottom(u8 model, AppTextManager *ATM)
         ATM->DrawText(StrId_GameCard_None, 2, 225, 0, C2D_WithColor, 0.5f, 0.5f, Colors_Red);
 
 
-    // get+draw serial number, battery, and temperature
+    /* 
+        get+draw serial number, battery, and temperature
+    */
     MCUHWC_GetBatteryLevel(&batteryLevel);
     std::stringstream bl;
     bl << textGetString(StrId_Battery, ATM->language) << std::to_string(batteryLevel) << "%";
-#ifdef __DEBUG
-    bl << "(addr: " << static_cast<void*>(&batteryLevel) << ")"; // 53% = 0x355157???
-#endif
     // use constant-refresh buffer so i dont KILL THE 3DS!!!
     ATM->RefreshCR();
     ATM->ParseCR(bl.str().c_str());
     ATM->DrawCR(2, 205, C2D_WithColor, 0.5f, 0.5f, Colors_White);
 
-    // serial number time
-    std::stringstream fullsn;
 
-    CFGI_SecureInfoGetSerialNumber(serialNumber);
-
-    int i = 0;
-    while (serialNumber[i] != 0x00) {
-        fullsn << serialNumber[i]; 
-        i++;
+    // serial number
+    if (!hasGottenSerial) {
+        // serial number time
+        std::stringstream fullsn;
+    
+        CFGI_SecureInfoGetSerialNumber(serialNumber);
+    
+        int i = 0;
+        while (serialNumber[i] != 0x00) {
+            fullsn << serialNumber[i]; 
+            i++;
+        }
+        sn << textGetString(StrId_SerialNumber, ATM->language) << fullsn.str();
+        hasGottenSerial = true;
     }
 
-    std::stringstream sn;
-    sn << textGetString(StrId_SerialNumber, ATM->language) << fullsn.str();
-#ifdef __DEBUG
-    sn << "(addr: " << static_cast<void*>(&serialNumber) << ")";
-#endif
     ATM->RefreshCR();
     ATM->ParseCR(sn.str().c_str());
     ATM->DrawCR(2, 185, C2D_WithColor, 0.5f, 0.5f, Colors_White);
+
+
+    // temperature
+    MCUHWC_ReadRegister(0x0A, &temperature, 1);
+    std::stringstream t;
+    t << textGetString(StrId_Temperature, ATM->language) << std::to_string(temperature) << "°C";
+    ATM->RefreshCR();
+    ATM->ParseCR(t.str().c_str());
+    ATM->DrawCR(2, 165, C2D_WithColor, 0.5f, 0.5f, Colors_White);
 }
