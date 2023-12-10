@@ -28,8 +28,8 @@ const char* const g_strings[StrId_Max][64] =
         LANG_EN("Move the 3D Slider up to enable 3D, \nor press / to hide this message.")
     },
     [StrId_Buttons] = {
-        LANG_JP(" ボタン"),
-        LANG_EN(" Buttons")
+        LANG_JP(" コントローラー"),
+        LANG_EN(" Controls")
     },
     [StrId_Touchscreen] = {
         LANG_JP(" タッチスクリーン"),

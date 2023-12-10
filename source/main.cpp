@@ -19,7 +19,7 @@
 // variables
 bool n3ds = false;
 u8 systemModel = CFG_MODEL_3DS; // defualt to normal 3DS
-u8 systemLang = 0; // ddefault is JP.
+u8 systemLang = 0; // default is JP.
 
 int main()
 {
@@ -83,6 +83,7 @@ int main()
         if (FN == SCREEN_CHECK_3D) DrawScreenCheckTop3D(systemModel, &ATM);
         if (FN == SCREEN_CHECK_2D) DrawScreenCheckTop2D(systemModel, &ATM);
         if (FN == TOUCHSCREEN_CHECK) DrawTouchscreenCheckTop(systemLang, &ATM);
+        if (FN == BUTTONS_CHECK) DrawButtonCheckTop(systemModel, &ATM);
 
 
 #ifndef __DEBUGCONSOLE
@@ -96,6 +97,7 @@ int main()
         if (FN == MAIN_MENU) DrawMenuBottom(systemModel, &ATM);
         if (FN == SCREEN_CHECK_3D || FN == SCREEN_CHECK_2D) DrawScreenCheckBottom(&ATM);
         if (FN == TOUCHSCREEN_CHECK) DrawTouchscreenCheckBottom();
+        if (FN == BUTTONS_CHECK) DrawButtonCheckBottom();
 #endif
 
         // 3D screen is only needed for screen check
@@ -130,13 +132,17 @@ int main()
                     SetCurrentFunction(SCREEN_CHECK_3D);
             }
             if (ButtonPressed(KEY_B)) SetCurrentFunction(TOUCHSCREEN_CHECK);
+            if (ButtonPressed(KEY_X)) SetCurrentFunction(BUTTONS_CHECK);
 
             // scan controls for START to exit:
             if (ButtonPressed(KEY_START) || FN == APP_EXIT) break;
         }
-        else if (ButtonPressed(KEY_B) && FN != BUTTONS_CHECK) // this will manage returning to the menu; we don't want this to run on buttons check though
+        else if (ButtonPressed(KEY_B)) // this will manage returning to the menu; we don't want this to run on buttons check though
         {
-            SetCurrentFunction(MAIN_MENU);
+            if (FN != BUTTONS_CHECK)
+                SetCurrentFunction(MAIN_MENU);
+            else if (ButtonHeld(KEY_START)) 
+                SetCurrentFunction(MAIN_MENU);
         }
 
 #ifdef __DEBUG

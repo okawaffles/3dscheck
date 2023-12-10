@@ -7,3 +7,4 @@
 
 #include "check_screen.hpp"
 #include "check_touchscreen.hpp"
+#include "check_buttons.hpp"
